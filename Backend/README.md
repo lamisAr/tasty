@@ -1,4 +1,4 @@
-# Steps to Run the Application
+# Steps to Run the BE Application
 
 ## Prerequisites
 
