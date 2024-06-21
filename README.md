@@ -4,11 +4,11 @@
 
 - [Yarn](https://yarnpkg.com/) package manager installed
 - set up 2 terminals before proceeding with the following steps for both
-first one 
+- first one 
     ```bash
     cd Backend
     ```
-second one 
+- second one 
     ```bash
     cd frontend
     ```
