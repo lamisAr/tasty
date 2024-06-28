@@ -1,5 +1,7 @@
-import { Table, Column, HasMany, Model as SequelizeModel, NotEmpty, AllowNull, DataType } from "sequelize-typescript";
+import { Table, Column, BelongsToMany, Model as SequelizeModel, NotEmpty, AllowNull, DataType } from "sequelize-typescript";
 import {IngredientType} from "../Enums";
+import RecipeIngredient from "./RecipeIngredient";
+import Recipe from "./Recipe";
 
 const IngredientTypeEnum = DataType.ENUM(...Object.values(IngredientType));
 
@@ -26,5 +28,8 @@ export default class Ingredient extends SequelizeModel<Ingredient> {
 
   @Column
   caloriesPer100g!: number;
+
+  @BelongsToMany(() => Recipe, () => RecipeIngredient)
+  ingredients!: Recipe[];
   
 }
