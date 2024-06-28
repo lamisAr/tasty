@@ -1,7 +1,9 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, HasMany, AllowNull, NotEmpty, DataType } from "sequelize-typescript";
+import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, HasMany, BelongsToMany, AllowNull, NotEmpty, DataType } from "sequelize-typescript";
 import User from "./User"; // Assuming User model is defined in a separate file
 import ImageURL from "./ImageURL";
 import {Cuisine, RecipeType} from "../Enums"
+import RecipeIngredient from "./RecipeIngredient";
+import Ingredient from "./Ingredient";
 
 
 const RecipeTypeEnum = DataType.ENUM(...Object.values(RecipeType));
@@ -50,4 +52,7 @@ export default class Recipe extends SequelizeModel<Recipe> {
   
   @HasMany(() => ImageURL)
   image!: ImageURL[];
+
+  @BelongsToMany(() => Ingredient, () => RecipeIngredient)
+  ingredients!: Ingredient[];
 }
