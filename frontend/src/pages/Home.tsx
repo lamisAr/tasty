@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import RecipesList from "../components/recipeList";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -28,12 +29,13 @@ const Home = () => {
 
   return (
     <>
-      <h1>Home</h1>
+      {/* <h1>Home</h1>
       <h4>Name: {userProfileInfo?.userName}</h4>
-      <h4>Email: {userProfileInfo?.email}</h4>
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
+      <h4>Email: {userProfileInfo?.email}</h4> */}
+      {/* <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
         Logout
-      </Button>
+      </Button> */}
+      <RecipesList></RecipesList>
     </>
   );
 };
