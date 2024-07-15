@@ -16,8 +16,8 @@ type Props = {
 
 export default function RecipeCard({ recipeTitle, description, ingredients }: Props) {
   return (
-    <div style={{margin: '10px'}}>
-      <Card sx={{ maxWidth: '30vw' }}>
+   
+      <Card>
         <CardMedia
           component="img"
           height="140"
@@ -37,6 +37,6 @@ export default function RecipeCard({ recipeTitle, description, ingredients }: Pr
           <Button size="small">Learn More</Button>
         </CardActions>
       </Card>
-    </div>
+
   );
 }
