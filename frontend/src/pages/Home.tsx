@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser } from "../slices/authSlice";
-import RecipesList from "../components/RecipeList";
-import { CssBaseline } from "@mui/material";
+import RecipesList from "../components/recipeList";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +16,7 @@ const Home = () => {
 
   return (
     <>
-      <CssBaseline />
-      <RecipesList></RecipesList>
+      <RecipesList isUserRecipe={false} ></RecipesList>
     </>
   );
 };

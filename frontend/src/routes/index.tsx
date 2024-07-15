@@ -26,8 +26,19 @@ export default function Router(){
             element: (
                 <Home/>
             )
+        },{
+            path:"",
+            element: (
+                <Home/>
+            )
+        },{
+            path:"my-recipes",
+            element: (
+                <UserRecipes/>
+            )
         }])
 }
 const Login = Loadable(lazy(() => import("../pages/Login")));
 const Register = Loadable(lazy(() => import("../pages/Register")));
 const Home = Loadable(lazy(() => import("../pages/Home")));
+const UserRecipes = Loadable(lazy(() => import("../pages/UserRecipes")));

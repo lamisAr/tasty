@@ -1,4 +1,3 @@
-// components/RecipesList.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -9,16 +8,14 @@ import {
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { RootState } from "../store";
 import RecipeCard from "./RecipeCard";
-import {
-  Container,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  Box,
-} from "@mui/material";
+import { Container, Grid, Typography, Box } from "@mui/material";
+import RecipeSearchBox from "./RecipeSearchBox";
 
-const RecipesList = () => {
+type Props = {
+  isUserRecipe: boolean;
+}
+
+const RecipesList = ({isUserRecipe}:Props) => {
   const dispatch = useAppDispatch();
   const { recipes, status, error } = useSelector(
     (state: RootState) => state.recipe || {}
@@ -33,10 +30,8 @@ const RecipesList = () => {
     type: "",
   };
 
-  console.log(recipes);
   useEffect(() => {
     dispatch(fetchRecipes(params));
-    console.log(recipes);
   }, [dispatch]);
 
   const handleSearchInputChange = (value: string) => {
@@ -57,58 +52,38 @@ const RecipesList = () => {
   }
 
   return (
-    <Container maxWidth={false} disableGutters>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          /* width: 50vw; */
-          gap: "10px",
-          backgroundColor: "#e8eff9",
-          padding: "5vh 26vw;",
-        }}
-      >
-        <Typography variant={"h5"} textAlign="center">
-          START BY SEARCHING YOUR RECIPE
-        </Typography>
-        <Box sx={{ gap: "15px", alignItems: "center", display: "inline-flex" }}>
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            value={searchInput}
-            onChange={(event) => handleSearchInputChange(event.target.value)}
-            style={{
-              margin: "0 auto",
-              width: "35vw",
-              minWidth: "300px",
-              backgroundColor: "white",
-            }}
-          />
-          <Button
-            variant="contained"
-            value="Search"
-            onClick={handleButtonClick}
-          >
-            {" "}
-            Search{" "}
-          </Button>
+    <Container maxWidth="xl" disableGutters>
+      {!isUserRecipe && <RecipeSearchBox
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        onSearchClick={handleButtonClick}
+      />}
+      <Box display="flex" flexDirection={"column"} alignItems={"center"}>
+        <Box maxWidth={"xl"} width={"100%"}>
+          <Typography variant="body1" mt={2} mb={2}>
+            Total Recipes: {recipes ? recipes.length : 0}
+          </Typography>
         </Box>
+        <Grid
+          maxWidth={"xl"}
+          container
+          gap="20px"
+          justifyContent={"center"}
+        >
+          {recipes ? (
+            recipes.map((recipe: any) => (
+              <RecipeCard
+                key={recipe.id}
+                recipeTitle={recipe.title}
+                description={recipe.description}
+                ingredients={recipe.ingredients}
+              />
+            ))
+          ) : (
+            <Typography>no data yet</Typography>
+          )}
+        </Grid>
       </Box>
-      <p>Total Recipes: {recipes ? recipes.length : 0}</p>
-      <Grid container gap="20px" justifyContent={"center"}>
-        {recipes ? (
-          recipes.map((recipe: any) => (
-            <RecipeCard
-              recipeTitle={recipe.title}
-              description={recipe.description}
-              ingredients={recipe.ingredients}
-            ></RecipeCard>
-          ))
-        ) : (
-          <Typography>no data yet</Typography>
-        )}
-      </Grid>
     </Container>
   );
 };
