@@ -37,7 +37,7 @@ const signup = async (
         console.log("user", JSON.stringify(user, null, 2));
         console.log(token);
         // Send user's details
-        return res.status(201).send(user);
+        return res.status(201).send({id:user.id, userName: user.userName, email: email});
       } else {
         return res.status(409).send("Details are not correct");
       }

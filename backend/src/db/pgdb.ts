@@ -54,5 +54,5 @@ export const authenticate = async () => {
 };
 
 export const sync = async () => {
-  sequelize.sync({force: true});
+  sequelize.sync();
 };
