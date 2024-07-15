@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import RecipesList from "../components/recipeList";
+import RecipesList from "../components/RecipeList";
 
 const Home = () => {
   const dispatch = useAppDispatch();
