@@ -14,12 +14,15 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { login } from "../slices/authSlice";
 import { encode } from "../common_lib/encodeDecode";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     // This is only a basic validation of inputs. Improve this as needed.
@@ -32,6 +35,7 @@ const Login = () => {
             password: encodedPassword,
           })
         ).unwrap();
+        navigate("/home");
       } catch (e) {
         console.error(e);
       }

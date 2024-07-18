@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { register } from "../slices/authSlice";
 import { encode } from "../common_lib/encodeDecode";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,8 @@ const Register = () => {
   const [userName, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     var encodedPassword = encode(process.env.secretKey || 'defaultSalt', password)
@@ -34,6 +37,7 @@ const Register = () => {
             password: encodedPassword,
           })
         ).unwrap();
+        navigate("/home")
       } catch (e) {
         console.error(e);
       }

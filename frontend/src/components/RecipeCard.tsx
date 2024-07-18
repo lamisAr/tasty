@@ -19,7 +19,7 @@ export default function RecipeCard({
   ingredients,
 }: Props) {
   return (
-    <Card>
+    <Card className="recipe-card">
       <CardMedia
         component="img"
         height="140"
