@@ -7,7 +7,7 @@ type User = {
 };
 
 type NewUser = User & {
-    userName: string;
+  userName: string;
 };
 
 type UserBasicInfo = {
@@ -47,10 +47,7 @@ export const login = createAsyncThunk("login", async (data: User) => {
 });
 
 export const register = createAsyncThunk("register", async (data: NewUser) => {
-  const response = await axiosInstance.post(
-    "api/user/signup",
-    data
-  );
+  const response = await axiosInstance.post("api/user/signup", data);
   const resData = response.data;
 
   localStorage.setItem("userInfo", JSON.stringify(resData));
@@ -59,7 +56,7 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
 });
 
 export const logout = createAsyncThunk("logout", async () => {
-  const response = await axiosInstance.post("/logout", {});
+  const response = await axiosInstance.post("api/user/logout", {});
   const resData = response.data;
 
   localStorage.removeItem("userInfo");
@@ -70,9 +67,7 @@ export const logout = createAsyncThunk("logout", async () => {
 export const getUser = createAsyncThunk(
   "users/profile",
   async (userId: string) => {
-    const response = await axiosInstance.get(
-      `/users/${userId}`
-    );
+    const response = await axiosInstance.get(`/users/${userId}`);
     return response.data;
   }
 );

@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { register } from "../slices/authSlice";
+import { encode } from "../common_lib/encodeDecode";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
+    var encodedPassword = encode(process.env.secretKey || 'defaultSalt', password)
     // This is only a basic validation of inputs. Improve this as needed.
     if (userName && email && password) {
       try {
@@ -29,7 +31,7 @@ const Register = () => {
           register({
             userName,
             email,
-            password,
+            password: encodedPassword,
           })
         ).unwrap();
       } catch (e) {
