@@ -1,6 +1,14 @@
-import { Typography, Box, Modal, Divider, Button, Autocomplete, TextField } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Modal,
+  Divider,
+  Button,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 // Define the Props type for the component
 type Props = {
@@ -10,13 +18,13 @@ type Props = {
 
 // Define the style for the modal content
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '80%',
-  height: '80%',
-  bgcolor: 'white',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  height: "80%",
+  bgcolor: "white",
   boxShadow: 24,
   borderRadius: 5,
   p: 4,
@@ -30,24 +38,25 @@ type Ingredient = {
   ingredientType2?: string;
   caloriesPer100g: number;
   quantity?: number; // Add quantity to the Ingredient type
-  unit?: string;    // Add unit to the Ingredient type
-  note?: string;    // Add note to the Ingredient type
+  unit?: string; // Add unit to the Ingredient type
+  note?: string; // Add note to the Ingredient type
 };
 
 export default function RecipeCard({ open, handleClose }: Props) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [countryOfOrigin, setCountryOfOrigin] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [countryOfOrigin, setCountryOfOrigin] = useState("");
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Ingredient[]>([]);
 
   useEffect(() => {
     if (searchTerm) {
-      axios.get(`http://localhost:5001/api/ingredients?search=${searchTerm}`)
-        .then(response => setSearchResults(response.data))
-        .catch(error => console.error('Error fetching ingredients:', error));
+      axiosInstance
+        .get(`http://localhost:5001/api/ingredients?search=${searchTerm}`)
+        .then((response) => setSearchResults(response.data))
+        .catch((error) => console.error("Error fetching ingredients:", error));
     }
   }, [searchTerm]);
 
@@ -67,9 +76,10 @@ export default function RecipeCard({ open, handleClose }: Props) {
       ingredients,
     };
 
-    axios.post('http://localhost:5001/api/recipes', newRecipe)
-      .then(response => console.log('Recipe added:', response.data))
-      .catch(error => console.error('Error adding recipe:', error));
+    axiosInstance
+      .post("http://localhost:5001/api/recipes", newRecipe)
+      .then((response) => console.log("Recipe added:", response.data))
+      .catch((error) => console.error("Error adding recipe:", error));
   };
 
   return (
@@ -85,7 +95,7 @@ export default function RecipeCard({ open, handleClose }: Props) {
           Add Recipe
         </Typography>
         <Divider />
-        <Box height={'85%'} overflow="auto">
+        <Box height={"85%"} overflow="auto">
           <TextField
             label="Title"
             value={title}
@@ -141,7 +151,7 @@ export default function RecipeCard({ open, handleClose }: Props) {
             ))}
           </Box>
         </Box>
-        <Box display={'flex'} gap={1} justifyContent={'flex-end'} mt={2}>
+        <Box display={"flex"} gap={1} justifyContent={"flex-end"} mt={2}>
           <Button variant="contained" color="error" onClick={handleClose}>
             Cancel
           </Button>

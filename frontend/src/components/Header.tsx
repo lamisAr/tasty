@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
+import { logout } from "../slices/authSlice";
 
 const pages = ["Recipes", "Blog"];
 const settings = ["Profile", "My Recipes", "Meal Plan", "Logout"];
@@ -47,7 +48,7 @@ function Header() {
     } else if (setting === "Profile") {
       navigate("/profile");
     } else if (setting === "My Recipes") {
-        navigate("/my-recipes")
+      navigate("/my-recipes");
     }
     setAnchorElUser(null);
   };
@@ -56,7 +57,7 @@ function Header() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      //   await dispatch(logout()).unwrap();
+      await dispatch(logout()).unwrap();
       navigate("/login");
     } catch (e) {
       console.error(e);
@@ -64,7 +65,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="fixed" sx={{zIndex: 1000}}>
+    <AppBar position="fixed" sx={{ zIndex: 1000 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
