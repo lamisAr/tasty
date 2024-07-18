@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { login } from "../slices/authSlice";
+import { encode } from "../common_lib/encodeDecode";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -24,10 +25,11 @@ const Login = () => {
     // This is only a basic validation of inputs. Improve this as needed.
     if (email && password) {
       try {
+        var encodedPassword = encode(process.env.secretKey || 'defaultSalt', password)
         await dispatch(
           login({
             email,
-            password,
+            password: encodedPassword,
           })
         ).unwrap();
       } catch (e) {
