@@ -23,7 +23,7 @@ export default function RecipeSearchBox({
       }}
     >
       <Typography variant={"h5"} textAlign="center">
-        START BY SEARCHING YOUR RECIPE
+        START BY SEARCHING A RECIPE
       </Typography>
       <Box sx={{ gap: "15px", alignItems: "center", display: "inline-flex" }}>
         <TextField
