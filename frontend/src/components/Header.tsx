@@ -64,7 +64,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{zIndex: 1000}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
