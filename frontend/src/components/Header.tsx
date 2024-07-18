@@ -46,6 +46,8 @@ function Header() {
       handleLogout();
     } else if (setting === "Profile") {
       navigate("/profile");
+    } else if (setting === "My Recipes") {
+        navigate("/my-recipes")
     }
     setAnchorElUser(null);
   };
