@@ -10,6 +10,7 @@ type Props = {
   recipeTitle: string;
   description: string;
   ingredients: string[];
+  recipeId: string;
   // Add other fields as necessary
 };
 
@@ -17,6 +18,7 @@ export default function RecipeCard({
   recipeTitle,
   description,
   ingredients,
+  recipeId
 }: Props) {
   return (
     <Card className="recipe-card">

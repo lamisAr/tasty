@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
-import { getUser } from "../slices/authSlice";
+import React from "react";
+import { useAppSelector } from "../hooks/redux-hooks";
 import RecipesList from "../components/recipeList";
 import { Container, Box, Typography, IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddRecipeModal from "../components/AddRecipesModal";
 
 const UserRecipes = () => {
-  const dispatch = useAppDispatch();
   const [openRecipeModal, setOpenRecipeModal] = React.useState(false);
   const handleOpenRecipeModal = () => setOpenRecipeModal(true);
 
@@ -16,12 +14,6 @@ const UserRecipes = () => {
   const handleCloseRecipeModal = () => {
     setOpenRecipeModal(false);
   };
-
-  useEffect(() => {
-    if (basicUserInfo) {
-      dispatch(getUser(basicUserInfo.id));
-    }
-  }, [basicUserInfo]);
 
   return (
     <>
@@ -37,10 +29,11 @@ const UserRecipes = () => {
           </Tooltip>
         </Box>
       </Container>
-      <RecipesList isUserRecipe={true}></RecipesList>
+      <RecipesList isUserRecipe={true} userId={basicUserInfo?.id}></RecipesList>
       <AddRecipeModal
         open={openRecipeModal}
         handleClose={handleCloseRecipeModal}
+        userId={basicUserInfo?.id}
       ></AddRecipeModal>
     </>
   );

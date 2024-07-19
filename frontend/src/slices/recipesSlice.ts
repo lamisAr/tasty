@@ -9,6 +9,7 @@ export type RecipeFetchParams  = {
   search?: string;
   cuisine?: string;
   type?: string;
+  userId?: string;
 };
 
 export type ErrorResponse = {
@@ -26,6 +27,7 @@ export const fetchRecipes = createAsyncThunk(
           search: params.search || '',
           cuisine: params.cuisine || '',
           type: params.type || '',
+          userId: params.userId || '',
         },
       });
       return response.data;
