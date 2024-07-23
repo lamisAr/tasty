@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import Router from "./routes";
-import Header from './components/Header';
+import Header from "./components/Header";
 import { CssBaseline } from "@mui/material";
-import './styles/general.css';
+import "./styles/general.css";
 
 const App = () => {
   return (
     <>
-    <Header/>
-    <CssBaseline/>
-    <Router/>
+      <Header />
+      <CssBaseline />
+      <Router />
     </>
   );
 };

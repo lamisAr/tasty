@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  fetchRecipes,
-  RecipeFetchParams,
-  ErrorResponse,
-} from "../slices/recipesSlice";
+import { fetchRecipes, RecipeFetchParams, ErrorResponse } from "../slices/recipesSlice";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { RootState } from "../store";
 import RecipeCard from "./RecipeCard";
@@ -13,13 +9,11 @@ import RecipeSearchBox from "./RecipeSearchBox";
 
 type Props = {
   isUserRecipe: boolean;
-}
+};
 
-const RecipesList = ({isUserRecipe}:Props) => {
+const RecipesList = ({ isUserRecipe }: Props) => {
   const dispatch = useAppDispatch();
-  const { recipes, status, error } = useSelector(
-    (state: RootState) => state.recipe || {}
-  );
+  const { recipes, status, error } = useSelector((state: RootState) => state.recipe || {});
   const [searchInput, setSearchInput] = useState<string>("");
 
   var params: RecipeFetchParams = {
@@ -53,23 +47,20 @@ const RecipesList = ({isUserRecipe}:Props) => {
 
   return (
     <Container maxWidth="xl" disableGutters>
-      {!isUserRecipe && <RecipeSearchBox
-        searchInput={searchInput}
-        onSearchInputChange={handleSearchInputChange}
-        onSearchClick={handleButtonClick}
-      />}
+      {!isUserRecipe && (
+        <RecipeSearchBox
+          searchInput={searchInput}
+          onSearchInputChange={handleSearchInputChange}
+          onSearchClick={handleButtonClick}
+        />
+      )}
       <Box display="flex" flexDirection={"column"} alignItems={"center"}>
         <Box maxWidth={"xl"} width={"100%"}>
           <Typography variant="body1" mt={2} mb={2}>
             Total Recipes: {recipes ? recipes.length : 0}
           </Typography>
         </Box>
-        <Grid
-          maxWidth={"xl"}
-          container
-          gap="20px"
-          justifyContent={"center"}
-        >
+        <Grid maxWidth={"xl"} container gap="20px" justifyContent={"center"}>
           {recipes ? (
             recipes.map((recipe: any) => (
               <RecipeCard

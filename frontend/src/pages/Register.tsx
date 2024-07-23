@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -23,7 +14,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
-    var encodedPassword = encode(process.env.secretKey || 'defaultSalt', password)
+    var encodedPassword = encode(process.env.secretKey || "defaultSalt", password);
     // This is only a basic validation of inputs. Improve this as needed.
     if (userName && email && password) {
       try {
@@ -97,12 +88,7 @@ const Register = () => {
                 />
               </Grid>
             </Grid>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleRegister}
-            >
+            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleRegister}>
               Register
             </Button>
             <Grid container justifyContent="flex-end">
