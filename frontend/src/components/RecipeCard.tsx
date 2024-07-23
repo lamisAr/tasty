@@ -10,12 +10,13 @@ type Props = {
   recipeTitle: string;
   description: string;
   ingredients: string[];
+  recipeId: string;
   // Add other fields as necessary
 };
 
-export default function RecipeCard({ recipeTitle, description, ingredients }: Props) {
+export default function RecipeCard({ recipeTitle, description, ingredients, recipeId }: Props) {
   return (
-    <Card>
+    <Card className="recipe-card">
       <CardMedia component="img" height="140" image={ImagePlaceholder} alt="ImagePlaceholder" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

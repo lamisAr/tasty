@@ -9,9 +9,10 @@ import RecipeSearchBox from "./RecipeSearchBox";
 
 type Props = {
   isUserRecipe: boolean;
+  userId?: string;
 };
 
-const RecipesList = ({ isUserRecipe }: Props) => {
+const RecipesList = ({ isUserRecipe, userId }: Props) => {
   const dispatch = useAppDispatch();
   const { recipes, status, error } = useSelector((state: RootState) => state.recipe || {});
   const [searchInput, setSearchInput] = useState<string>("");
@@ -22,6 +23,7 @@ const RecipesList = ({ isUserRecipe }: Props) => {
     search: "",
     cuisine: "",
     type: "",
+    userId: userId,
   };
 
   useEffect(() => {
@@ -62,9 +64,10 @@ const RecipesList = ({ isUserRecipe }: Props) => {
         </Box>
         <Grid maxWidth={"xl"} container gap="20px" justifyContent={"center"}>
           {recipes ? (
-            recipes.map((recipe: any) => (
+            recipes.map((recipe: any, index) => (
               <RecipeCard
-                key={recipe.id}
+                key={index}
+                recipeId={recipe.id}
                 recipeTitle={recipe.title}
                 description={recipe.description}
                 ingredients={recipe.ingredients}

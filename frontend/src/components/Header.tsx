@@ -16,7 +16,9 @@ import { useAppDispatch } from "../hooks/redux-hooks";
 import { logout } from "../slices/authSlice";
 
 const pages = ["Recipes", "Blog"];
-const settings = ["Profile", "My Recipes", "Meal Plan", "Logout"];
+
+type Settings = string[];
+var settings:Settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]')
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -26,6 +28,7 @@ function Header() {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]')
     setAnchorElUser(event.currentTarget);
   };
 
@@ -45,6 +48,10 @@ function Header() {
       navigate("/profile");
     } else if (setting === "My Recipes") {
       navigate("/my-recipes");
+    } else if (setting === "Login"){
+      navigate("/login");
+    } else if (setting === "Register"){
+      navigate("/register");
     }
     setAnchorElUser(null);
   };

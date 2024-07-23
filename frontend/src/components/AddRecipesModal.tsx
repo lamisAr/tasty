@@ -6,6 +6,7 @@ import axiosInstance from "../api/axiosInstance";
 type Props = {
   open: boolean;
   handleClose: () => void;
+  userId?: string
 };
 
 // Define the style for the modal content
@@ -34,7 +35,7 @@ type Ingredient = {
   note?: string; // Add note to the Ingredient type
 };
 
-export default function RecipeCard({ open, handleClose }: Props) {
+export default function RecipeCard({ open, handleClose, userId }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -46,7 +47,7 @@ export default function RecipeCard({ open, handleClose }: Props) {
   useEffect(() => {
     if (searchTerm) {
       axiosInstance
-        .get(`http://localhost:5001/api/ingredients?search=${searchTerm}`)
+        .get(`/api/ingredients?search=${searchTerm}`)
         .then((response) => setSearchResults(response.data))
         .catch((error) => console.error("Error fetching ingredients:", error));
     }
@@ -64,12 +65,12 @@ export default function RecipeCard({ open, handleClose }: Props) {
       description,
       instructions,
       country_of_origin: countryOfOrigin,
-      user_id: 1, // Replace with actual user ID if available
+      user_id: userId, // Replace with actual user ID if available
       ingredients,
     };
 
     axiosInstance
-      .post("http://localhost:5001/api/recipes", newRecipe)
+      .post("/api/recipes", newRecipe)
       .then((response) => console.log("Recipe added:", response.data))
       .catch((error) => console.error("Error adding recipe:", error));
   };

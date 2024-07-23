@@ -40,6 +40,7 @@ export const login = createAsyncThunk("login", async (data: User) => {
   const resData = response.data;
 
   localStorage.setItem("userInfo", JSON.stringify(resData));
+  localStorage.setItem("settings",JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]))
 
   return resData;
 });
@@ -49,6 +50,7 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
   const resData = response.data;
 
   localStorage.setItem("userInfo", JSON.stringify(resData));
+  localStorage.setItem("settings",JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]))
 
   return resData;
 });
@@ -58,6 +60,7 @@ export const logout = createAsyncThunk("logout", async () => {
   const resData = response.data;
 
   localStorage.removeItem("userInfo");
+  localStorage.setItem("settings",JSON.stringify(["login", "register"]))
 
   return resData;
 });
