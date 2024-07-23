@@ -1,4 +1,17 @@
 # Tasty
+Tasty is a platform for users to share and discuss various recipes. It offers easy recipe search, ingredient cart creation for convenient shopping experiences, and considers user dietary preferences for inclusivity.
+
+## Main Features:
+- User Creation (login/signup)
+- User Recipe Enlistment
+- Recipe Search and filters
+- Recipe comment and rating
+- Recipe favorites
+- Daily, weekly, monthly meal planning
+- Shopping list creation based on meal plans
+- Calorie counter
+- Ingredient substitutes
+
 
 ## Prerequisites
 
