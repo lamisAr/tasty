@@ -4,6 +4,7 @@ Tasty is a platform for users to share and discuss various recipes. It offers ea
 ## Main Features:
 - User Creation (login/signup)
 - User Recipe Enlistment
+- User profile management
 - Recipe Search and filters
 - Recipe comment and rating
 - Recipe favorites
