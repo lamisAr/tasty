@@ -1,14 +1,5 @@
 import { LockOutlined } from "@mui/icons-material";
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Avatar,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-} from "@mui/material";
+import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button, Grid } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
@@ -28,7 +19,7 @@ const Login = () => {
     // This is only a basic validation of inputs. Improve this as needed.
     if (email && password) {
       try {
-        var encodedPassword = encode(process.env.secretKey || 'defaultSalt', password)
+        var encodedPassword = encode(process.env.secretKey || "defaultSalt", password);
         await dispatch(
           login({
             email,
@@ -87,12 +78,7 @@ const Login = () => {
               }}
             />
 
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleLogin}
-            >
+            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogin}>
               Login
             </Button>
             <Grid container justifyContent={"flex-end"}>

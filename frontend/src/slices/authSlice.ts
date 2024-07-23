@@ -29,9 +29,7 @@ type AuthApiState = {
 };
 
 const initialState: AuthApiState = {
-  basicUserInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo") as string)
-    : null,
+  basicUserInfo: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") as string) : null,
   userProfileData: undefined,
   status: "idle",
   error: null,
@@ -67,13 +65,10 @@ export const logout = createAsyncThunk("logout", async () => {
   return resData;
 });
 
-export const getUser = createAsyncThunk(
-  "users/profile",
-  async (userId: string) => {
-    const response = await axiosInstance.get(`/users/${userId}`);
-    return response.data;
-  }
-);
+export const getUser = createAsyncThunk("users/profile", async (userId: string) => {
+  const response = await axiosInstance.get(`/users/${userId}`);
+  return response.data;
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -85,13 +80,10 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(
-        login.fulfilled,
-        (state, action: PayloadAction<UserBasicInfo>) => {
-          state.status = "idle";
-          state.basicUserInfo = action.payload;
-        }
-      )
+      .addCase(login.fulfilled, (state, action: PayloadAction<UserBasicInfo>) => {
+        state.status = "idle";
+        state.basicUserInfo = action.payload;
+      })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Login failed";
@@ -101,13 +93,10 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(
-        register.fulfilled,
-        (state, action: PayloadAction<UserBasicInfo>) => {
-          state.status = "idle";
-          state.basicUserInfo = action.payload;
-        }
-      )
+      .addCase(register.fulfilled, (state, action: PayloadAction<UserBasicInfo>) => {
+        state.status = "idle";
+        state.basicUserInfo = action.payload;
+      })
       .addCase(register.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Registration failed";
