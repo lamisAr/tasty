@@ -1,12 +1,4 @@
-import {
-  Typography,
-  Box,
-  Modal,
-  Divider,
-  Button,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
+import { Typography, Box, Modal, Divider, Button, Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
@@ -96,13 +88,7 @@ export default function RecipeCard({ open, handleClose }: Props) {
         </Typography>
         <Divider />
         <Box height={"85%"} overflow="auto">
-          <TextField
-            label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
+          <TextField label="Title" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth margin="normal" />
           <TextField
             label="Description"
             value={description}
@@ -133,14 +119,7 @@ export default function RecipeCard({ open, handleClose }: Props) {
             getOptionLabel={(option) => option.name}
             onInputChange={(event, value) => setSearchTerm(value)}
             onChange={(event, value) => handleAddIngredient(value)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search Ingredients"
-                fullWidth
-                margin="normal"
-              />
-            )}
+            renderInput={(params) => <TextField {...params} label="Search Ingredients" fullWidth margin="normal" />}
           />
           <Box mt={2}>
             <Typography variant="h6">Selected Ingredients:</Typography>

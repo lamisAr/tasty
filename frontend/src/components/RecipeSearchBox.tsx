@@ -7,11 +7,7 @@ type Props = {
   onSearchClick: () => void;
 };
 
-export default function RecipeSearchBox({
-  searchInput,
-  onSearchInputChange,
-  onSearchClick,
-}: Props) {
+export default function RecipeSearchBox({ searchInput, onSearchInputChange, onSearchClick }: Props) {
   return (
     <Box
       sx={{

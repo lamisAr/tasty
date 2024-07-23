@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      <RecipesList isUserRecipe={false} ></RecipesList>
+      <RecipesList isUserRecipe={false}></RecipesList>
     </>
   );
 };

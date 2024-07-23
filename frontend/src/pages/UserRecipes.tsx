@@ -38,10 +38,7 @@ const UserRecipes = () => {
         </Box>
       </Container>
       <RecipesList isUserRecipe={true}></RecipesList>
-      <AddRecipeModal
-        open={openRecipeModal}
-        handleClose={handleCloseRecipeModal}
-      ></AddRecipeModal>
+      <AddRecipeModal open={openRecipeModal} handleClose={handleCloseRecipeModal}></AddRecipeModal>
     </>
   );
 };

@@ -1,9 +1,9 @@
 // features/recipes/recipesSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {AxiosError} from 'axios';
-import axiosInstance from '../api/axiosInstance';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
+import axiosInstance from "../api/axiosInstance";
 
-export type RecipeFetchParams  = {
+export type RecipeFetchParams = {
   page?: number;
   limit?: number;
   search?: string;
@@ -12,25 +12,25 @@ export type RecipeFetchParams  = {
 };
 
 export type ErrorResponse = {
-  message?:string;
-}
+  message?: string;
+};
 
 export const fetchRecipes = createAsyncThunk(
-  'recipes/fetchRecipes',
+  "recipes/fetchRecipes",
   async (params: RecipeFetchParams, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get('/api/recipes', {
+      const response = await axiosInstance.get("/api/recipes", {
         params: {
           page: params.page || 1,
           limit: params.limit || 10,
-          search: params.search || '',
-          cuisine: params.cuisine || '',
-          type: params.type || '',
+          search: params.search || "",
+          cuisine: params.cuisine || "",
+          type: params.type || "",
         },
       });
       return response.data;
     } catch (error) {
-      let errorMsg = 'Something went wrong!';
+      let errorMsg = "Something went wrong!";
       if (error instanceof AxiosError && error.response) {
         errorMsg = error.response.data.message || errorMsg;
       }
@@ -39,32 +39,31 @@ export const fetchRecipes = createAsyncThunk(
   }
 );
 
-
 const recipesSlice = createSlice({
-  name: 'recipes',
+  name: "recipes",
   initialState: {
     recipes: [],
     total: 0,
     page: 1,
     limit: 10,
-    status: 'idle',
+    status: "idle",
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchRecipes.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.recipes = action.payload.data;
         state.total = action.payload.total;
         state.page = action.payload.page;
         state.limit = action.payload.limit;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload as any;
       });
   },
