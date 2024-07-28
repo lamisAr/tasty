@@ -7,58 +7,58 @@ import { Op } from "sequelize";
 
 // Add Recipe
 export const addRecipe = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const { title, description, instructions, country_of_origin, type, user_id, ingredients } = req.body;
-  
-      // Create the recipe instance
-      const recipe = await Recipe.create({
-        title,
-        description,
-        instructions,
-        country_of_origin,
-        type,
-        user_id,
-      } as any);
-  
-      // If ingredients are provided, associate them with the recipe
-      if (ingredients && ingredients.length > 0) {
-        for (const ingredient of ingredients) {
-          const { ingredient_id, quantity, unit, note } = ingredient;
-  
-          // Create RecipeIngredient instance and associate with the recipe
-          await RecipeIngredient.create({
-            recipe_id: recipe.recipe_id,
-            ingredient_id,
-            quantity,
-            unit,
-            note,
-          } as any);
-        }
+  try {
+    const { title, description, instructions, country_of_origin, type, user_id, ingredients } = req.body;
+
+    // Create the recipe instance
+    const recipe = await Recipe.create({
+      title,
+      description,
+      instructions,
+      country_of_origin,
+      type,
+      user_id,
+    } as any);
+
+    // If ingredients are provided, associate them with the recipe
+    if (ingredients && ingredients.length > 0) {
+      for (const ingredient of ingredients) {
+        const { ingredient_id, quantity, unit, note } = ingredient;
+
+        // Create RecipeIngredient instance and associate with the recipe
+        await RecipeIngredient.create({
+          recipe_id: recipe.recipe_id,
+          ingredient_id,
+          quantity,
+          unit,
+          note,
+        } as any);
       }
-  
-      // Fetch the created recipe with associated ingredients
-      const createdRecipe = await Recipe.findByPk(recipe.recipe_id, {
-        include: [
-          {
-            model: Ingredient,
-            through: {
-              attributes: ['quantity', 'unit', 'note'],
-            },
-          },
-        ],
-      });
-  
-      return res.status(201).json(createdRecipe);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal Server Error" });
     }
-  };
+
+    // Fetch the created recipe with associated ingredients
+    const createdRecipe = await Recipe.findByPk(recipe.recipe_id, {
+      include: [
+        {
+          model: Ingredient,
+          through: {
+            attributes: ["quantity", "unit", "note"],
+          },
+        },
+      ],
+    });
+
+    return res.status(201).json(createdRecipe);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 // Get Recipes with pagination, search, and filters
 export const getRecipes = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { page = 1, limit = 10, search, cuisine, type } = req.query;
+    const { page = 1, limit = 10, search, cuisine, type, userId } = req.query;
 
     const offset = (Number(page) - 1) * Number(limit);
     const whereClause: any = {};
@@ -73,6 +73,10 @@ export const getRecipes = async (req: Request, res: Response): Promise<Response>
 
     if (type) {
       whereClause.type = type;
+    }
+
+    if (userId) {
+      whereClause.user_id = userId;
     }
 
     const recipes = await Recipe.findAndCountAll({

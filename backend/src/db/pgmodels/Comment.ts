@@ -1,13 +1,25 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, HasMany, NotEmpty, AllowNull, DataType, DeletedAt } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model as SequelizeModel,
+  ForeignKey,
+  BelongsTo,
+  CreatedAt,
+  UpdatedAt,
+  HasMany,
+  NotEmpty,
+  AllowNull,
+  DataType,
+  DeletedAt,
+} from "sequelize-typescript";
 import User from "./User"; // Assuming User model is defined in a separate file
 import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
 
 @Table
 export default class Comment extends SequelizeModel<Comment> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   comment_id!: number;
 
@@ -42,10 +54,10 @@ export default class Comment extends SequelizeModel<Comment> {
   @Column
   parent_comment_id!: number;
 
-  @BelongsTo(() => Comment, { foreignKey: 'parent_comment_id', targetKey: 'comment_id' })
+  @BelongsTo(() => Comment, { foreignKey: "parent_comment_id", targetKey: "comment_id" })
   parent_comment!: Comment;
 
-  @HasMany(() => Comment, { foreignKey: 'parent_comment_id' })
+  @HasMany(() => Comment, { foreignKey: "parent_comment_id" })
   child_comments!: Comment[];
 
   @DeletedAt

@@ -3,10 +3,9 @@ import Recipe from "./Recipe";
 
 @Table
 export default class ImageURL extends SequelizeModel<ImageURL> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   image_id!: number;
 
@@ -14,7 +13,7 @@ export default class ImageURL extends SequelizeModel<ImageURL> {
   @Column
   URL!: string;
 
-  @ForeignKey(()=>Recipe)
-  @Column 
-  recipe_id!: number
+  @ForeignKey(() => Recipe)
+  @Column
+  recipe_id!: number;
 }

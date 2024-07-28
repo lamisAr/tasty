@@ -4,10 +4,9 @@ import Ingredient from "./Ingredient"; // Assuming Ingredient model is defined i
 
 @Table
 export default class ShoppingListItem extends SequelizeModel<ShoppingListItem> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   shopping_list_item_id!: number;
 

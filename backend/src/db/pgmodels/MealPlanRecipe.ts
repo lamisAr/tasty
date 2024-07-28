@@ -3,10 +3,9 @@ import MealPlan from "./MealPlan"; // Assuming MealPlan model is defined in a se
 import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
 @Table
 export default class MealPlanRecipe extends SequelizeModel<MealPlanRecipe> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   meal_plan_recipe_id!: number;
 

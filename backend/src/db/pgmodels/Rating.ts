@@ -1,14 +1,21 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model as SequelizeModel,
+  ForeignKey,
+  BelongsTo,
+  CreatedAt,
+  UpdatedAt,
+} from "sequelize-typescript";
 import User from "./User"; // Assuming User model is defined in a separate file
 import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
 import { Col } from "sequelize/types/utils";
 
 @Table
 export default class Rating extends SequelizeModel<Rating> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   rating_id!: number;
 

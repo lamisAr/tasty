@@ -1,33 +1,34 @@
 require("dotenv").config();
 import { authenticate, sync } from "./db/pgdb";
-import express , {Application,  NextFunction, Request, Response } from "express";
-import userRoutes from "./Routes/userRoutes"
+import express, { Application, NextFunction, Request, Response } from "express";
+import userRoutes from "./Routes/userRoutes";
 import ingredientRoutes from "./Routes/ingredientRoutes";
 import recipeRoutes from "./Routes/recipeRoutes";
 
-const cookieParser = require('cookie-parser')
-const cors = require('cors');
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 authenticate();
 sync();
 
 const port = process.env.PORT || 5001;
 
-const app: Application = express()
+const app: Application = express();
 
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 
 //middleware
-app.use(cors(corsOptions))
-.use(express.json())
-.use(express.urlencoded({ extended: true }))
-.use(cookieParser())
-.use("/api/user", userRoutes)
-.use("/api/recipes", recipeRoutes)
-.use("/api/ingredients", ingredientRoutes);
+app
+  .use(cors(corsOptions))
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
+  .use(cookieParser())
+  .use("/api/user", userRoutes)
+  .use("/api/recipes", recipeRoutes)
+  .use("/api/ingredients", ingredientRoutes);
 
 app.listen(port, () => console.log(`Server running at ${port}`));

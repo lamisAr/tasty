@@ -1,13 +1,21 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, DataType } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model as SequelizeModel,
+  ForeignKey,
+  BelongsTo,
+  CreatedAt,
+  UpdatedAt,
+  DataType,
+} from "sequelize-typescript";
 import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
 import Ingredient from "./Ingredient"; // Assuming Ingredient model is defined in a separate file
 
 @Table
 export default class RecipeIngredient extends SequelizeModel<RecipeIngredient> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   recipe_ingredient_id!: number;
 

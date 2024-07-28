@@ -1,13 +1,24 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, HasMany, CreatedAt, UpdatedAt, AllowNull, NotEmpty, DataType} from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model as SequelizeModel,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  CreatedAt,
+  UpdatedAt,
+  AllowNull,
+  NotEmpty,
+  DataType,
+} from "sequelize-typescript";
 import User from "./User"; // Assuming User model is defined in the same directory
 import ShoppingListItem from "./ShoppingListItem"; // Assuming ShoppingListItem model is defined in the same directory
 
 @Table
 export default class ShoppingList extends SequelizeModel<ShoppingList> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   shopping_list_id!: number;
 

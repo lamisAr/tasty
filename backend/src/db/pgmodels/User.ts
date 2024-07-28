@@ -12,12 +12,11 @@ import {
   IsEmail,
   NotEmpty,
   DeletedAt,
-} from 'sequelize-typescript';
-import ImageURL from './ImageURL';
+} from "sequelize-typescript";
+import ImageURL from "./ImageURL";
 
 @Table
 export default class User extends Model<User> {
-
   @Column
   firstName!: string;
 

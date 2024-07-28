@@ -1,12 +1,22 @@
-import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, AllowNull, NotEmpty, DataType } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model as SequelizeModel,
+  ForeignKey,
+  BelongsTo,
+  CreatedAt,
+  UpdatedAt,
+  AllowNull,
+  NotEmpty,
+  DataType,
+} from "sequelize-typescript";
 import User from "./User"; // Assuming User model is defined in a separate file
 
 @Table
 export default class MealPlan extends SequelizeModel<MealPlan> {
-
   @Column({
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   meal_plan_id!: number;
 

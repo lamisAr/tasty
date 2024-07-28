@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import User from "./pgmodels/User"
+import User from "./pgmodels/User";
 import Comment from "./pgmodels/Comment";
 import Favorite from "./pgmodels/Favorite";
 import Ingredient from "./pgmodels/Ingredient";
@@ -41,7 +41,7 @@ sequelize.addModels([
   ShoppingList,
   ShoppingListItem,
   Follows,
-  ImageURL
+  ImageURL,
 ]);
 
 export const authenticate = async () => {
