@@ -52,6 +52,7 @@
     "@fullcalendar/timeline": "^5.11.3",
     "@hookform/resolvers": "^2.9.8",
     "@iconify/react": "^4.0.0",
+    "@mui/icons-material": "^5.16.6",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.15.20",
     "@mui/x-data-grid": "^5.17.7",
@@ -135,7 +136,6 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
-    "@mui/icons-material": "^5.15.20",
     "@svgr/webpack": "^6.4.0",
     "@testing-library/react": "^16.0.0",
     "@types/autosuggest-highlight": "^3.2.0",

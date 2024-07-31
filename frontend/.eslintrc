@@ -9,6 +9,18 @@
     "plugin:@typescript-eslint/recommended",
      "airbnb", "prettier"
   ],
-    "rules": {
-    }
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": false }],
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "always",
+        "jsx": "always",
+        "ts": "always",
+        "tsx": "always"
+      }
+    ]
+  }
 }
