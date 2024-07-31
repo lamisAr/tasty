@@ -41,6 +41,7 @@ export const login = createAsyncThunk("login", async (data: User) => {
   const response = await axiosInstance.post("/api/user/login", data);
   const resData = response.data;
 
+  localStorage.setItem("jwt", resData.token);
   localStorage.setItem("userInfo", JSON.stringify(resData));
   localStorage.setItem("settings", JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]));
 
@@ -51,6 +52,7 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
   const response = await axiosInstance.post("api/user/signup", data);
   const resData = response.data;
 
+  localStorage.setItem("jwt", resData.token);
   localStorage.setItem("userInfo", JSON.stringify(resData));
   localStorage.setItem("settings", JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]));
 
@@ -62,7 +64,8 @@ export const logout = createAsyncThunk("logout", async () => {
   const resData = response.data;
 
   localStorage.removeItem("userInfo");
-  localStorage.setItem("settings", JSON.stringify(["login", "register"]));
+  localStorage.setItem("settings", JSON.stringify(["Login", "Register"]));
+  localStorage.removeItem("jwt");
 
   return resData;
 });
