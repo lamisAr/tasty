@@ -15,6 +15,7 @@ type Props = {
 };
 
 export default function RecipeCard({ recipeTitle, description, ingredients, recipeId }: Props) {
+  console.log(ingredients, recipeId);
   return (
     <Card className="recipe-card">
       <CardMedia component="img" height="140" image={ImagePlaceholder} alt="ImagePlaceholder" />

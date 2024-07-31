@@ -10,17 +10,19 @@
      "airbnb", "prettier"
   ],
   "rules": {
+    "react/react-in-jsx-scope": "off", 
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": false }],
+    "import/no-extraneous-dependencies": "off",
     "import/extensions": [
-      "error",
-      "always",
+      "off",
+      "ignorePackages",
       {
-        "js": "always",
-        "jsx": "always",
-        "ts": "always",
-        "tsx": "always"
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
-    ]
+    ],
+    "react/jsx-props-no-spreading": "off"
   }
 }

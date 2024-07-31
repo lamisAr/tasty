@@ -1,10 +1,10 @@
 import React from "react";
-import Router from "./routes";
-import Header from "./components/Header";
 import { CssBaseline } from "@mui/material";
+import Router from "./routes/index.tsx";
+import Header from "./components/Header.tsx";
 import "./styles/general.css";
 
-const App = () => {
+function App() {
   return (
     <>
       <Header />
@@ -12,6 +12,6 @@ const App = () => {
       <Router />
     </>
   );
-};
+}
 
 export default App;

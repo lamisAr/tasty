@@ -12,23 +12,35 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../hooks/redux-hooks";
-import { logout } from "../slices/authSlice";
+import { useAppDispatch } from "../hooks/redux-hooks.ts";
+import { logout } from "../slices/authSlice.ts";
 
 const pages = ["Recipes", "Blog"];
 
 type Settings = string[];
-var settings:Settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]')
+let settings: Settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]');
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      navigate("/login");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]')
+    settings = JSON.parse(localStorage.getItem("settings") || '["Login", "Register"]');
     setAnchorElUser(event.currentTarget);
   };
 
@@ -48,23 +60,12 @@ function Header() {
       navigate("/profile");
     } else if (setting === "My Recipes") {
       navigate("/my-recipes");
-    } else if (setting === "Login"){
+    } else if (setting === "Login") {
       navigate("/login");
-    } else if (setting === "Register"){
+    } else if (setting === "Register") {
       navigate("/register");
     }
     setAnchorElUser(null);
-  };
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    try {
-      await dispatch(logout()).unwrap();
-      navigate("/login");
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   return (

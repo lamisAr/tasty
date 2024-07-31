@@ -1,11 +1,11 @@
 import React from "react";
-import { useAppSelector } from "../hooks/redux-hooks";
-import RecipesList from "../components/recipeList";
 import { Container, Box, Typography, IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddRecipeModal from "../components/AddRecipesModal";
+import { useAppSelector } from "../hooks/redux-hooks.ts";
+import RecipesList from "../components/recipeList.tsx";
+import AddRecipeModal from "../components/AddRecipesModal.tsx";
 
-const UserRecipes = () => {
+function UserRecipes() {
   const [openRecipeModal, setOpenRecipeModal] = React.useState(false);
   const handleOpenRecipeModal = () => setOpenRecipeModal(true);
 
@@ -18,8 +18,8 @@ const UserRecipes = () => {
   return (
     <>
       <Container maxWidth="xl" sx={{ padding: "0px !important" }}>
-        <Box display={"flex"} alignItems={"center"} pt={4}>
-          <Typography variant="h5" fontWeight={"bold"}>
+        <Box display="flex" alignItems="center" pt={4}>
+          <Typography variant="h5" fontWeight="bold">
             My Recipes
           </Typography>
           <Tooltip title="Add a new recipe" onClick={handleOpenRecipeModal}>
@@ -29,14 +29,10 @@ const UserRecipes = () => {
           </Tooltip>
         </Box>
       </Container>
-      <RecipesList isUserRecipe={true} userId={basicUserInfo?.id}></RecipesList>
-      <AddRecipeModal
-        open={openRecipeModal}
-        handleClose={handleCloseRecipeModal}
-        userId={basicUserInfo?.id}
-      ></AddRecipeModal>
+      <RecipesList isUserRecipe userId={basicUserInfo?.id} />
+      <AddRecipeModal open={openRecipeModal} handleClose={handleCloseRecipeModal} userId={basicUserInfo?.id} />
     </>
   );
-};
+}
 
 export default UserRecipes;

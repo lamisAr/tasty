@@ -1,7 +1,9 @@
 // features/recipes/recipesSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance.ts";
+
+/* eslint-disable no-param-reassign */
 
 export type RecipeFetchParams = {
   page?: number;

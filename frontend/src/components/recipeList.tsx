@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchRecipes, RecipeFetchParams, ErrorResponse } from "../slices/recipesSlice";
-import { useAppDispatch } from "../hooks/redux-hooks";
-import { RootState } from "../store";
-import RecipeCard from "./RecipeCard";
 import { Container, Grid, Typography, Box } from "@mui/material";
-import RecipeSearchBox from "./RecipeSearchBox";
+import { fetchRecipes, RecipeFetchParams } from "../slices/recipesSlice.ts";
+import { useAppDispatch } from "../hooks/redux-hooks.ts";
+import { RootState } from "../store.ts";
+import RecipeCard from "./RecipeCard.tsx";
+import RecipeSearchBox from "./RecipeSearchBox.tsx";
 
 type Props = {
   isUserRecipe: boolean;
   userId?: string;
 };
 
-const RecipesList = ({ isUserRecipe, userId }: Props) => {
+function RecipesList({ isUserRecipe, userId }: Props) {
   const dispatch = useAppDispatch();
   const { recipes, status, error } = useSelector((state: RootState) => state.recipe || {});
   const [searchInput, setSearchInput] = useState<string>("");
 
-  var params: RecipeFetchParams = {
+  const params: RecipeFetchParams = {
     page: 1,
     limit: 10,
     search: "",
     cuisine: "",
     type: "",
-    userId: userId,
+    userId,
   };
 
   useEffect(() => {
@@ -56,17 +56,17 @@ const RecipesList = ({ isUserRecipe, userId }: Props) => {
           onSearchClick={handleButtonClick}
         />
       )}
-      <Box display="flex" flexDirection={"column"} alignItems={"center"}>
-        <Box maxWidth={"xl"} width={"100%"}>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box maxWidth="xl" width="100%">
           <Typography variant="body1" mt={2} mb={2}>
             Total Recipes: {recipes ? recipes.length : 0}
           </Typography>
         </Box>
-        <Grid maxWidth={"xl"} container gap="20px" justifyContent={"center"}>
+        <Grid maxWidth="xl" container gap="20px" justifyContent="center">
           {recipes ? (
-            recipes.map((recipe: any, index) => (
+            recipes.map((recipe: any) => (
               <RecipeCard
-                key={index}
+                key={recipe.id}
                 recipeId={recipe.id}
                 recipeTitle={recipe.title}
                 description={recipe.description}
@@ -80,6 +80,9 @@ const RecipesList = ({ isUserRecipe, userId }: Props) => {
       </Box>
     </Container>
   );
-};
+}
 
+RecipesList.defaultProps = {
+  userId: "",
+};
 export default RecipesList;

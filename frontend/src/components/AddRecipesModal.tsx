@@ -1,17 +1,17 @@
 import { Typography, Box, Modal, Divider, Button, Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance.ts";
 
 // Define the Props type for the component
 type Props = {
   open: boolean;
   handleClose: () => void;
-  userId?: string
+  userId?: string;
 };
 
 // Define the style for the modal content
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -88,7 +88,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
           Add Recipe
         </Typography>
         <Divider />
-        <Box height={"85%"} overflow="auto">
+        <Box height="85%" overflow="auto">
           <TextField label="Title" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth margin="normal" />
           <TextField
             label="Description"
@@ -124,14 +124,14 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
           />
           <Box mt={2}>
             <Typography variant="h6">Selected Ingredients:</Typography>
-            {ingredients.map((ingredient, index) => (
-              <Typography key={index}>
+            {ingredients.map((ingredient) => (
+              <Typography key={ingredient.ingredient_id}>
                 {ingredient.note} - {ingredient.quantity} {ingredient.unit}
               </Typography>
             ))}
           </Box>
         </Box>
-        <Box display={"flex"} gap={1} justifyContent={"flex-end"} mt={2}>
+        <Box display="flex" gap={1} justifyContent="flex-end" mt={2}>
           <Button variant="contained" color="error" onClick={handleClose}>
             Cancel
           </Button>
@@ -143,3 +143,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
     </Modal>
   );
 }
+
+RecipeCard.defaultProps = {
+  userId: "", // Provide a default value for userId
+};

@@ -3,6 +3,7 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 
 type Props = {
   searchInput: string;
+  // eslint-disable-next-line no-unused-vars
   onSearchInputChange: (value: string) => void;
   onSearchClick: () => void;
 };
@@ -18,7 +19,7 @@ export default function RecipeSearchBox({ searchInput, onSearchInputChange, onSe
         padding: "5vh 26vw;",
       }}
     >
-      <Typography variant={"h5"} textAlign="center">
+      <Typography variant="h5" textAlign="center">
         START BY SEARCHING A RECIPE
       </Typography>
       <Box sx={{ gap: "15px", alignItems: "center", display: "inline-flex" }}>

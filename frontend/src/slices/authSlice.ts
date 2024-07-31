@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance.ts";
+
+/* eslint-disable no-param-reassign */
 
 type User = {
   email: string;
@@ -40,7 +42,7 @@ export const login = createAsyncThunk("login", async (data: User) => {
   const resData = response.data;
 
   localStorage.setItem("userInfo", JSON.stringify(resData));
-  localStorage.setItem("settings",JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]))
+  localStorage.setItem("settings", JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]));
 
   return resData;
 });
@@ -50,7 +52,7 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
   const resData = response.data;
 
   localStorage.setItem("userInfo", JSON.stringify(resData));
-  localStorage.setItem("settings",JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]))
+  localStorage.setItem("settings", JSON.stringify(["Profile", "My Recipes", "Favorites", "Logout"]));
 
   return resData;
 });
@@ -60,7 +62,7 @@ export const logout = createAsyncThunk("logout", async () => {
   const resData = response.data;
 
   localStorage.removeItem("userInfo");
-  localStorage.setItem("settings",JSON.stringify(["login", "register"]))
+  localStorage.setItem("settings", JSON.stringify(["login", "register"]));
 
   return resData;
 });
@@ -106,7 +108,7 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         state.status = "idle";
         state.basicUserInfo = null;
       })
