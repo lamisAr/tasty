@@ -27,7 +27,7 @@ function Login() {
         ).unwrap();
         navigate("/home");
       } catch (e) {
-        console.error(e);
+        navigate("/login");
       }
     } else {
       // Show an error message.

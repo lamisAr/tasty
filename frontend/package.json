@@ -136,6 +136,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@svgr/webpack": "^6.4.0",
     "@testing-library/react": "^16.0.0",
     "@types/autosuggest-highlight": "^3.2.0",

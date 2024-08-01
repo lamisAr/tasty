@@ -29,7 +29,7 @@ function Register() {
         ).unwrap();
         navigate("/home");
       } catch (e) {
-        console.error(e);
+        navigate("/logout");
       }
     } else {
       // Show an error message.

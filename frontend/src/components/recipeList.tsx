@@ -64,13 +64,13 @@ function RecipesList({ isUserRecipe, userId }: Props) {
         </Box>
         <Grid maxWidth="xl" container gap="20px" justifyContent="center">
           {recipes ? (
-            recipes.map((recipe: any) => (
+            recipes.map((recipe: any, index) => (
               <RecipeCard
-                key={recipe.id}
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
                 recipeId={recipe.id}
                 recipeTitle={recipe.title}
                 description={recipe.description}
-                ingredients={recipe.ingredients}
               />
             ))
           ) : (
@@ -82,7 +82,4 @@ function RecipesList({ isUserRecipe, userId }: Props) {
   );
 }
 
-RecipesList.defaultProps = {
-  userId: "",
-};
 export default RecipesList;

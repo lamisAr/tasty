@@ -3,16 +3,20 @@ import { Container, Box, Typography, IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppSelector } from "../hooks/redux-hooks.ts";
 import RecipesList from "../components/recipeList.tsx";
-import AddRecipeModal from "../components/AddRecipesModal.tsx";
+import AddRecipeModal from "../components/AddRecipes/AddRecipesModal.tsx";
 
 function UserRecipes() {
   const [openRecipeModal, setOpenRecipeModal] = React.useState(false);
   const handleOpenRecipeModal = () => setOpenRecipeModal(true);
+  const [refreshKey, setRefreshKey] = React.useState(0);
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
 
-  const handleCloseRecipeModal = () => {
+  const handleCloseRecipeModal = (recipeSubmitted?: boolean) => {
     setOpenRecipeModal(false);
+    if (recipeSubmitted) {
+      setRefreshKey((oldKey) => oldKey + 1);
+    }
   };
 
   return (
@@ -29,7 +33,7 @@ function UserRecipes() {
           </Tooltip>
         </Box>
       </Container>
-      <RecipesList isUserRecipe userId={basicUserInfo?.id} />
+      <RecipesList key={refreshKey} isUserRecipe userId={basicUserInfo?.id} />
       <AddRecipeModal open={openRecipeModal} handleClose={handleCloseRecipeModal} userId={basicUserInfo?.id} />
     </>
   );

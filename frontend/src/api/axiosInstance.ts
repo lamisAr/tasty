@@ -19,6 +19,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       // Handle unauthorized access, e.g., redirect to login
+      // eslint-disable-next-line
       alert("Session expired. Please log in again.");
       // Clear token from storage
       localStorage.removeItem("jwt");

@@ -9,15 +9,13 @@ import ImagePlaceholder from "../media/img/foodIcon.jpg";
 type Props = {
   recipeTitle: string;
   description: string;
-  ingredients: string[];
   recipeId: string;
   // Add other fields as necessary
 };
 
-export default function RecipeCard({ recipeTitle, description, ingredients, recipeId }: Props) {
-  console.log(ingredients, recipeId);
+function RecipeCard({ recipeTitle, description, recipeId }: Props) {
   return (
-    <Card className="recipe-card">
+    <Card className="recipe-card" id={recipeId}>
       <CardMedia component="img" height="140" image={ImagePlaceholder} alt="ImagePlaceholder" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -34,3 +32,5 @@ export default function RecipeCard({ recipeTitle, description, ingredients, reci
     </Card>
   );
 }
+
+export default RecipeCard;

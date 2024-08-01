@@ -32,7 +32,7 @@ function Header() {
       await dispatch(logout()).unwrap();
       navigate("/login");
     } catch (e) {
-      console.error(e);
+      navigate("/login");
     }
   };
 
