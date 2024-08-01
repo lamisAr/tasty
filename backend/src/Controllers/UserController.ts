@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../db/pgmodels/User"; // Adjust the import path to match your project structure
-import { decode } from "../common_lib/encodeDecode";
+import { decode, encode } from "../common_lib/encodeDecode";
 
 const bcrypt = require("bcryptjs");
 // Signing a user up
@@ -29,7 +29,7 @@ const signup = async (req: Request, res: Response): Promise<Response | void> => 
 
         res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
         // Send user's details
-        return res.status(201).send({ id: user.id, userName: user.userName, email: email });
+        return res.status(201).send({ id: user.id, userName: user.userName, email: email, token });
       } else {
         return res.status(409).send("Details are not correct");
       }
@@ -75,6 +75,7 @@ const login = async (req: Request, res: Response): Promise<Response | void> => {
           firstName: user.firstName,
           lastName: user.lastName,
           description: user.description,
+          token: token,
         });
       } else {
         return res.status(401).send("Authentication failed");

@@ -9,7 +9,7 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
   const token = req.cookies.jwt || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Access denied. No token provided." });
+    return res.status(401).json({ message: "Invalid token." });
   }
 
   try {
@@ -18,6 +18,6 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(400).json({ message: "Invalid token." });
+    res.status(401).json({ message: "Invalid token." });
   }
 };

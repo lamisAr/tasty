@@ -17,7 +17,7 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response.status === 401 && error.response.data?.message === "Invalid token.") {
       // Handle unauthorized access, e.g., redirect to login
       // eslint-disable-next-line
       alert("Session expired. Please log in again.");

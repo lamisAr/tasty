@@ -12,8 +12,10 @@ import {
   IsEmail,
   NotEmpty,
   DeletedAt,
+  HasMany,
 } from "sequelize-typescript";
 import ImageURL from "./ImageURL";
+import Favorite from "./Favorite";
 
 @Table
 export default class User extends Model<User> {
@@ -59,6 +61,9 @@ export default class User extends Model<User> {
   @UpdatedAt
   @Column
   updatedAt!: Date;
+
+  @HasMany(() => Favorite, "user_id") // Define the association with Favorite
+  favorites!: Favorite[];
 
   async comparePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);

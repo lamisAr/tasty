@@ -17,6 +17,7 @@ import ImageURL from "./ImageURL";
 import { Cuisine, RecipeType } from "../Enums";
 import RecipeIngredient from "./RecipeIngredient";
 import Ingredient from "./Ingredient";
+import Favorite from "./Favorite";
 
 const RecipeTypeEnum = DataType.ENUM(...Object.values(RecipeType));
 const CuisineEnum = DataType.ENUM(...Object.values(Cuisine));
@@ -66,4 +67,7 @@ export default class Recipe extends SequelizeModel<Recipe> {
 
   @BelongsToMany(() => Ingredient, () => RecipeIngredient)
   ingredients!: Ingredient[];
+
+  @HasMany(() => Favorite, "recipe_id") // Define the association
+  favorites!: Favorite[];
 }
