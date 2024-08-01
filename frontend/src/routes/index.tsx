@@ -2,7 +2,7 @@ import { Suspense, lazy, ElementType } from "react";
 import { useRoutes } from "react-router-dom";
 
 const Loadable = (Component: ElementType) =>
-  function (props: any) {
+  function load(props: any) {
     /* eslint-disable react/jsx-props-no-spreading */
     return (
       <Suspense>
