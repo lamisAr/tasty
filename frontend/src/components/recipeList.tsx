@@ -1,34 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, Grid, Typography, Box } from "@mui/material";
-import { fetchRecipes, RecipeFetchParams } from "../slices/recipesSlice.ts";
-import { useAppDispatch } from "../hooks/redux-hooks.ts";
+import { fetchFavoriteRecipeIds, fetchRecipes, RecipeFetchParams } from "../slices/recipesSlice.ts";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks.ts";
 import { RootState } from "../store.ts";
 import RecipeCard from "./RecipeCard.tsx";
 import RecipeSearchBox from "./RecipeSearchBox.tsx";
 
 type Props = {
-  isUserRecipe: boolean;
+  isUserRecipe?: boolean;
+  isFavRecipe?: boolean;
   userId?: string;
 };
 
-function RecipesList({ isUserRecipe, userId }: Props) {
+function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Props) {
   const dispatch = useAppDispatch();
   const { recipes, status, error } = useSelector((state: RootState) => state.recipe || {});
   const [searchInput, setSearchInput] = useState<string>("");
 
-  const params: RecipeFetchParams = {
-    page: 1,
-    limit: 10,
-    search: "",
-    cuisine: "",
-    type: "",
-    userId,
-  };
+  const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
+
+  const [favoriteRecipeIds, setFavoriteRecipeIds] = useState<[number]>();
+
+  // Memoize params to avoid unnecessary re-renders
+  const params: RecipeFetchParams = useMemo(
+    () => ({
+      page: 1,
+      limit: 10,
+      search: searchInput,
+      cuisine: "",
+      type: "",
+      ...(isUserRecipe && userId ? { userId } : {}),
+      ...(isFavRecipe && userId ? { favUserId: userId } : {}),
+    }),
+    [searchInput, isUserRecipe, isFavRecipe, userId]
+  );
 
   useEffect(() => {
     dispatch(fetchRecipes(params));
-  }, [dispatch]);
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    const fetchAndSetFavoriteRecipes = async () => {
+      if (basicUserInfo?.id) {
+        const ids = await dispatch(fetchFavoriteRecipeIds({ userId: basicUserInfo?.id })).unwrap();
+        if (ids && ids.length) setFavoriteRecipeIds(ids);
+      }
+    };
+
+    fetchAndSetFavoriteRecipes();
+  }, [basicUserInfo?.id, dispatch]);
 
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
@@ -49,7 +70,7 @@ function RecipesList({ isUserRecipe, userId }: Props) {
 
   return (
     <Container maxWidth="xl" disableGutters>
-      {!isUserRecipe && (
+      {!(isUserRecipe || isFavRecipe) && (
         <RecipeSearchBox
           searchInput={searchInput}
           onSearchInputChange={handleSearchInputChange}
@@ -64,13 +85,14 @@ function RecipesList({ isUserRecipe, userId }: Props) {
         </Box>
         <Grid maxWidth="xl" container gap="20px" justifyContent="center">
           {recipes ? (
-            recipes.map((recipe: any, index) => (
+            recipes.map((recipe: any) => (
               <RecipeCard
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                recipeId={recipe.id}
+                key={recipe.recipe_id}
+                recipeId={recipe.recipe_id}
                 recipeTitle={recipe.title}
                 description={recipe.description}
+                favoriteRecipeIds={favoriteRecipeIds}
+                userId={basicUserInfo?.id}
               />
             ))
           ) : (

@@ -1,7 +1,7 @@
 import RecipesList from "../components/recipeList.tsx";
 
 function Home() {
-  return <RecipesList isUserRecipe={false} />;
+  return <RecipesList />;
 }
 
 export default Home;

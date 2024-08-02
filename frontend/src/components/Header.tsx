@@ -60,6 +60,8 @@ function Header() {
       navigate("/profile");
     } else if (setting === "My Recipes") {
       navigate("/my-recipes");
+    } else if (setting === "Favorites") {
+      navigate("/favorites");
     } else if (setting === "Login") {
       navigate("/login");
     } else if (setting === "Register") {
