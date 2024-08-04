@@ -7,13 +7,13 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import ImagePlaceholder from "../media/img/foodIcon.jpg";
 import { useAppDispatch } from "../hooks/redux-hooks.ts";
-import { addFavoriteRecipe } from "../slices/recipesSlice.ts";
+import { addFavoriteRecipe, removeFavoriteRecipe } from "../slices/recipesSlice.ts";
 
 type Props = {
   recipeTitle: string;
   description: string;
   recipeId: string;
-  favoriteRecipeIds?: [number];
+  favoriteRecipeIds?: number[];
   userId?: string;
   // Add other fields as necessary
 };
@@ -32,12 +32,18 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
     ) {
       setIsFavRecipe(true);
     }
-  }, [favoriteRecipeIds]);
+  }, [favoriteRecipeIds, recipeId]);
   const dispatch = useAppDispatch();
-  const handleAddToFavorites = async () => {
+  const handleAddToFavorites = () => {
     if (userId) {
-      await dispatch(addFavoriteRecipe({ userId, recipeId: Number(recipeId) }));
       setIsFavRecipe(true);
+      dispatch(addFavoriteRecipe({ userId, recipeId: Number(recipeId) }));
+    }
+  };
+  const handleRemoveFromFavorites = () => {
+    if (userId) {
+      setIsFavRecipe(false);
+      dispatch(removeFavoriteRecipe({ userId, recipeId: Number(recipeId) }));
     }
   };
 
@@ -54,7 +60,9 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
       </CardContent>
       <CardActions>
         {isFavRecipe ? (
-          <Button sx={{ color: "red" }}>Remove from Favorites</Button>
+          <Button sx={{ color: "red" }} onClick={handleRemoveFromFavorites}>
+            Remove from Favorites
+          </Button>
         ) : (
           <Button size="small" onClick={handleAddToFavorites}>
             + Add to Favorites

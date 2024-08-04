@@ -20,13 +20,13 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
 
-  const [favoriteRecipeIds, setFavoriteRecipeIds] = useState<[number]>();
+  const favoriteRecipeIds = useAppSelector((state: RootState) => state.recipe.favoriteRecipeIds);
 
   // Memoize params to avoid unnecessary re-renders
   const params: RecipeFetchParams = useMemo(
     () => ({
       page: 1,
-      limit: 10,
+      limit: 100,
       search: searchInput,
       cuisine: "",
       type: "",
@@ -38,18 +38,17 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
 
   useEffect(() => {
     dispatch(fetchRecipes(params));
-  }, [dispatch, params]);
+  }, [params]);
 
   useEffect(() => {
     const fetchAndSetFavoriteRecipes = async () => {
       if (basicUserInfo?.id) {
-        const ids = await dispatch(fetchFavoriteRecipeIds({ userId: basicUserInfo?.id })).unwrap();
-        if (ids && ids.length) setFavoriteRecipeIds(ids);
+        await dispatch(fetchFavoriteRecipeIds({ userId: basicUserInfo?.id })).unwrap();
       }
     };
 
     fetchAndSetFavoriteRecipes();
-  }, [basicUserInfo?.id, dispatch]);
+  }, [basicUserInfo?.id]);
 
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);

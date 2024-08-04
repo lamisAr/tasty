@@ -60,6 +60,24 @@ export const addFavoriteRecipe = createAsyncThunk(
   }
 );
 
+export const removeFavoriteRecipe = createAsyncThunk(
+  "recipes/removeFavoriteRecipe",
+  async ({ userId, recipeId }: { userId: string; recipeId: number }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete("/api/recipes/favorites/remove", {
+        data: { userId, recipeId },
+      });
+      return response.data;
+    } catch (error) {
+      let errorMsg = "Something went wrong!";
+      if (error instanceof AxiosError && error.response) {
+        errorMsg = error.response.data.message || errorMsg;
+      }
+      return rejectWithValue({ message: errorMsg });
+    }
+  }
+);
+
 // Modify the fetchRecipes thunk to use favorite recipe IDs if favUserId is provided
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
@@ -142,15 +160,21 @@ const recipesSlice = createSlice({
         state.status = "failed";
         state.error = action.payload as any;
       })
-      .addCase(addFavoriteRecipe.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(addFavoriteRecipe.fulfilled, (state, action: PayloadAction<number>) => {
         state.status = "succeeded";
         // Update the list of favorite recipe IDs if needed
         state.favoriteRecipeIds.push(action.payload); // Adjust based on your API response
       })
       .addCase(addFavoriteRecipe.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as any;
+      })
+      .addCase(removeFavoriteRecipe.fulfilled, (state, action: PayloadAction<number>) => {
+        state.status = "succeeded";
+        // Update the list of favorite recipe IDs if needed
+        state.favoriteRecipeIds.slice(state.favoriteRecipeIds.indexOf(action.payload), 1); // Adjust based on your API response
+      })
+      .addCase(removeFavoriteRecipe.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as any;
       });

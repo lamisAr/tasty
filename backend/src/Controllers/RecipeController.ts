@@ -197,7 +197,7 @@ export const addFavoriteRecipe = async (req: Request, res: Response): Promise<Re
       recipe_id: recipeId,
     } as any);
 
-    return res.status(201).json({ message: "Recipe added to favorites" });
+    return res.status(201).json(recipeId);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -230,7 +230,7 @@ export const removeFavoriteRecipe = async (req: Request, res: Response): Promise
     // Delete the favorite entry
     await favorite.destroy();
 
-    return res.status(200).json({ message: "Recipe removed from favorites" });
+    return res.status(200).json(recipeId);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
