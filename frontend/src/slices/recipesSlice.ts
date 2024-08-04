@@ -163,7 +163,7 @@ const recipesSlice = createSlice({
       .addCase(addFavoriteRecipe.fulfilled, (state, action: PayloadAction<number>) => {
         state.status = "succeeded";
         // Update the list of favorite recipe IDs if needed
-        state.favoriteRecipeIds.push(action.payload); // Adjust based on your API response
+        state.favoriteRecipeIds.push(action.payload);
       })
       .addCase(addFavoriteRecipe.rejected, (state, action) => {
         state.status = "failed";
@@ -172,7 +172,7 @@ const recipesSlice = createSlice({
       .addCase(removeFavoriteRecipe.fulfilled, (state, action: PayloadAction<number>) => {
         state.status = "succeeded";
         // Update the list of favorite recipe IDs if needed
-        state.favoriteRecipeIds.slice(state.favoriteRecipeIds.indexOf(action.payload), 1); // Adjust based on your API response
+        state.favoriteRecipeIds.splice(state.favoriteRecipeIds.indexOf(action.payload), 1);
       })
       .addCase(removeFavoriteRecipe.rejected, (state, action) => {
         state.status = "failed";
