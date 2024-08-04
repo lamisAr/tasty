@@ -135,9 +135,9 @@ const recipesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRecipes.pending, (state) => {
-        state.status = "loading";
-      })
+      // .addCase(fetchRecipes.pending, (state) => {
+      //   state.status = "loading";
+      // })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.recipes = action.payload.data;

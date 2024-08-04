@@ -25,7 +25,7 @@ export default function RecipeSearchBox({ searchInput, onSearchInputChange, onSe
       <Box sx={{ gap: "15px", alignItems: "center", display: "inline-flex" }}>
         <TextField
           id="outlined-basic"
-          label="Outlined"
+          label="Search A Recipe"
           variant="outlined"
           value={searchInput}
           onChange={(event) => onSearchInputChange(event.target.value)}
