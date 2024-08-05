@@ -15,7 +15,8 @@ type Props = {
 
 function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Props) {
   const dispatch = useAppDispatch();
-  const { recipes, status, error } = useSelector((state: RootState) => state.recipe || {});
+  const { recipes } = useSelector((state: RootState) => state.recipe || {});
+  // const {status, error } = useSelector((state: RootState) => state.recipe || {});
   const [searchInput, setSearchInput] = useState<string>("");
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
@@ -59,13 +60,13 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
     dispatch(fetchRecipes(params));
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (status === "failed") {
-    return <div>Error: {(error as any).message}</div>;
-  }
+  // if (status === "failed") {
+  //   return <div>Error: {(error as any).message}</div>;
+  // }
 
   return (
     <Container maxWidth="xl" disableGutters>
