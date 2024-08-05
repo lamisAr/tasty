@@ -100,7 +100,6 @@ export const fetchRecipes = createAsyncThunk(
           recipeIds: recipeIds.length > 0 ? recipeIds : undefined,
         },
       });
-
       return response.data;
     } catch (error) {
       let errorMsg = "Something went wrong!";

@@ -76,29 +76,33 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
           onSearchClick={handleButtonClick}
         />
       )}
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box maxWidth="xl" width="100%">
-          <Typography variant="body1" mt={2} mb={2}>
-            Total Recipes: {recipes ? recipes.length : 0}
-          </Typography>
+      {isFavRecipe && favoriteRecipeIds.length === 0 ? (
+        <Typography mt={3}>No Favorites Available!</Typography>
+      ) : (
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Box maxWidth="xl" width="100%">
+            <Typography variant="body1" mt={2} mb={2}>
+              Total Recipes: {recipes ? recipes.length : 0}
+            </Typography>
+          </Box>
+          <Grid maxWidth="xl" container gap="20px" justifyContent="center">
+            {recipes ? (
+              recipes.map((recipe: any) => (
+                <RecipeCard
+                  key={recipe.recipe_id}
+                  recipeId={recipe.recipe_id}
+                  recipeTitle={recipe.title}
+                  description={recipe.description}
+                  favoriteRecipeIds={favoriteRecipeIds}
+                  userId={basicUserInfo?.id}
+                />
+              ))
+            ) : (
+              <Typography>no data yet</Typography>
+            )}
+          </Grid>
         </Box>
-        <Grid maxWidth="xl" container gap="20px" justifyContent="center">
-          {recipes ? (
-            recipes.map((recipe: any) => (
-              <RecipeCard
-                key={recipe.recipe_id}
-                recipeId={recipe.recipe_id}
-                recipeTitle={recipe.title}
-                description={recipe.description}
-                favoriteRecipeIds={favoriteRecipeIds}
-                userId={basicUserInfo?.id}
-              />
-            ))
-          ) : (
-            <Typography>no data yet</Typography>
-          )}
-        </Grid>
-      </Box>
+      )}
     </Container>
   );
 }
