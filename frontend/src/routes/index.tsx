@@ -16,6 +16,7 @@ const Register = Loadable(lazy(() => import("../pages/Register.tsx")));
 const Home = Loadable(lazy(() => import("../pages/Home.tsx")));
 const UserRecipes = Loadable(lazy(() => import("../pages/UserRecipes.tsx")));
 const Favorites = Loadable(lazy(() => import("../pages/Favorites.tsx")));
+const Profile = Loadable(lazy(() => import("../pages/Profile.tsx")));
 
 export default function Router() {
   return useRoutes([
@@ -42,6 +43,10 @@ export default function Router() {
     {
       path: "favorites",
       element: <Favorites />,
+    },
+    {
+      path: "profile",
+      element: <Profile />,
     },
   ]);
 }

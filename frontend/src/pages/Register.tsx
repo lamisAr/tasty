@@ -10,6 +10,9 @@ function Register() {
   const dispatch = useAppDispatch();
 
   const [userName, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,11 +28,14 @@ function Register() {
             userName,
             email,
             password: encodedPassword,
+            description,
+            lastName,
+            firstName,
           })
         ).unwrap();
         navigate("/home");
       } catch (e) {
-        navigate("/logout");
+        navigate("/login");
       }
     } else {
       // Show an error message.
@@ -53,19 +59,41 @@ function Register() {
         <Typography variant="h5">Register</Typography>
         <Box sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 name="name"
                 required
                 fullWidth
-                id="name"
-                label="Name"
+                id="firstName"
+                label="First Name"
                 autoFocus
-                value={userName}
-                onChange={(e) => setName(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </Grid>
-
+            <Grid item xs={6}>
+              <TextField
+                name="lastName"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                autoFocus
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="description"
+                label="Shortly Describe Yourself"
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 required
@@ -75,6 +103,18 @@ function Register() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="name"
+                required
+                fullWidth
+                id="name"
+                label="User Name"
+                autoFocus
+                value={userName}
+                onChange={(e) => setName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

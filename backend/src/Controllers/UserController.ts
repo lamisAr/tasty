@@ -2,18 +2,22 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../db/pgmodels/User"; // Adjust the import path to match your project structure
 import { decode, encode } from "../common_lib/encodeDecode";
+import { describe } from "node:test";
 
 const bcrypt = require("bcryptjs");
 // Signing a user up
 // Hashing user's password before it's saved to the database with bcrypt
 const signup = async (req: Request, res: Response): Promise<Response | void> => {
   try {
-    const { userName, email, password } = req.body;
+    const { userName, email, password, firstName, lastName, description } = req.body;
     if (userName && email && password) {
       const hashedPassword = await bcrypt.hash(decode(process.env.secretKey || "defaultSalt", password), 10);
       const data = {
         userName,
         email,
+        firstName,
+        lastName,
+        description,
         password: hashedPassword,
       };
 
@@ -29,7 +33,15 @@ const signup = async (req: Request, res: Response): Promise<Response | void> => 
 
         res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
         // Send user's details
-        return res.status(201).send({ id: user.id, userName: user.userName, email: email, token });
+        return res.status(201).send({
+          id: user.id,
+          userName: user.userName,
+          email: email,
+          token,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          description: user.description,
+        });
       } else {
         return res.status(409).send("Details are not correct");
       }

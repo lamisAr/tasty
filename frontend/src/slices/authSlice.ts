@@ -10,12 +10,18 @@ type User = {
 
 type NewUser = User & {
   userName: string;
+  description: string;
+  firstName?: string;
+  lastName?: string;
 };
 
 type UserBasicInfo = {
   id: string;
   userName: string;
   email: string;
+  description?: string;
+  firstName?: string;
+  lastName?: string;
 };
 
 type UserProfileData = {
