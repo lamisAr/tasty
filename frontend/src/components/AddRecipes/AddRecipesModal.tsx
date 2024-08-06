@@ -97,7 +97,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
       ingredients,
     };
 
-    axiosInstance.post("/api/recipes", newRecipe).then((response) => {
+    axiosInstance.post("/recipes", newRecipe).then((response) => {
       if (response.status === 201) {
         resetForm();
         handleClose(true);
@@ -187,6 +187,8 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
                   value={ingredient.unit}
                   onChange={(e) => updateIngredient(ingredient.ingredient_id, e.target.value, "unit")}
                   margin="normal"
+                  defaultValue="grams"
+                  disabled
                 />
                 <TextField
                   label="quantity"
