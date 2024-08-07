@@ -65,7 +65,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
     if (storedIngredients && JSON.parse(storedIngredients)?.length > 0) {
       setAllIngredients(JSON.parse(storedIngredients));
     } else
-      axiosInstance.get(`/api/ingredients`).then((response) => {
+      axiosInstance.get(`/ingredients`).then((response) => {
         sessionStorage.setItem("ingredients", JSON.stringify(response.data.data));
         setAllIngredients(response.data.data);
       });
