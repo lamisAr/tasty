@@ -37,4 +37,10 @@ export default class Ingredient extends SequelizeModel<Ingredient> {
 
   @BelongsToMany(() => Recipe, () => RecipeIngredient)
   ingredients!: Recipe[];
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  deleted!: boolean;
 }

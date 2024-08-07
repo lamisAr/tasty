@@ -70,4 +70,10 @@ export default class Recipe extends SequelizeModel<Recipe> {
 
   @HasMany(() => Favorite, "recipe_id") // Define the association
   favorites!: Favorite[];
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  deleted!: boolean;
 }

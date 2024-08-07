@@ -10,7 +10,7 @@ import {
   NotEmpty,
   DataType,
 } from "sequelize-typescript";
-import User from "./User"; // Assuming User model is defined in a separate file
+import User from "./User";
 
 @Table
 export default class MealPlan extends SequelizeModel<MealPlan> {

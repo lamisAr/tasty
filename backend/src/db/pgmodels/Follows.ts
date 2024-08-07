@@ -7,7 +7,7 @@ import {
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
-import User from "./User"; // Assuming Recipe model is defined in a separate file
+import User from "./User";
 
 @Table
 export default class Follows extends SequelizeModel<Follows> {

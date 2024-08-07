@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axiosInstance from "../../api/axiosInstance.ts";
 
-// Define the Props type for the component
 type Props = {
   open: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -23,7 +22,6 @@ type Props = {
   userId?: string;
 };
 
-// Define the style for the modal content
 const style = {
   position: "absolute" as const,
   top: "50%",
@@ -39,16 +37,15 @@ const style = {
   pl: 12,
 };
 
-// Define the Ingredient type
 type Ingredient = {
   ingredient_id: number;
   name: string;
   ingredientType?: string;
   ingredientType2?: string;
   caloriesPer100g: number;
-  quantity?: number; // Add quantity to the Ingredient type
-  unit?: string; // Add unit to the Ingredient type
-  note?: string; // Add note to the Ingredient type
+  quantity?: number;
+  unit?: string;
+  note?: string;
 };
 
 export default function RecipeCard({ open, handleClose, userId }: Props) {
@@ -65,7 +62,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
     if (storedIngredients && JSON.parse(storedIngredients)?.length > 0) {
       setAllIngredients(JSON.parse(storedIngredients));
     } else
-      axiosInstance.get(`/api/ingredients`).then((response) => {
+      axiosInstance.get(`/ingredients`).then((response) => {
         sessionStorage.setItem("ingredients", JSON.stringify(response.data.data));
         setAllIngredients(response.data.data);
       });
@@ -93,7 +90,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
       description,
       instructions,
       country_of_origin: countryOfOrigin,
-      user_id: userId, // Replace with actual user ID if available
+      user_id: userId,
       ingredients,
     };
 
@@ -174,7 +171,7 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
           <List>
             {ingredients.map((ingredient: Ingredient) => (
               <ListItem
-                key={ingredient.ingredient_id} // Add a unique key
+                key={ingredient.ingredient_id}
                 secondaryAction={
                   <IconButton onClick={() => deleteIngredient(ingredient)} edge="end" aria-label="delete">
                     <DeleteIcon />

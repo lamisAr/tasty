@@ -12,14 +12,22 @@ export type RecipeFetchParams = {
   cuisine?: string;
   type?: string;
   userId?: string;
-  favUserId?: string; // Add favUserId here
+  favUserId?: string;
 };
 
 export type ErrorResponse = {
   message?: string;
 };
 
-// Thunk to fetch favorite recipe IDs
+/**
+ * Async thunk to fetch favorite recipe IDs for a specific user.
+ * Retrieves the list of favorite recipe IDs from the server or uses cached data if available and forceLoad is not true.
+ * @param {Object} params - The parameters for fetching favorite recipe IDs.
+ * @param {string} params.userId - The ID of the user whose favorite recipes are to be fetched.
+ * @param {boolean} [params.forceLoad] - Optional flag to force load from the server.
+ * @param {ThunkAPI} { getState, rejectWithValue } - The thunk API to access the state and handle errors.
+ * @returns {Promise<number[]>} - The list of favorite recipe IDs.
+ */
 export const fetchFavoriteRecipeIds = createAsyncThunk(
   "recipes/fetchFavoriteRecipeIds",
   async ({ userId, forceLoad }: { userId: string; forceLoad?: boolean }, { getState, rejectWithValue }) => {
@@ -44,6 +52,15 @@ export const fetchFavoriteRecipeIds = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to add a recipe to the user's favorites.
+ * Sends a request to the server to add a recipe to the list of favorite recipes.
+ * @param {Object} params - The parameters for adding a recipe to favorites.
+ * @param {string} params.userId - The ID of the user who is adding the recipe to favorites.
+ * @param {number} params.recipeId - The ID of the recipe to be added to favorites.
+ * @param {ThunkAPI} { rejectWithValue } - The thunk API to handle errors.
+ * @returns {Promise<any>} - The response from the server.
+ */
 export const addFavoriteRecipe = createAsyncThunk(
   "recipes/addFavoriteRecipe",
   async ({ userId, recipeId }: { userId: string; recipeId: number }, { rejectWithValue }) => {
@@ -60,6 +77,15 @@ export const addFavoriteRecipe = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to remove a recipe from the user's favorites.
+ * Sends a request to the server to remove a recipe from the list of favorite recipes.
+ * @param {Object} params - The parameters for removing a recipe from favorites.
+ * @param {string} params.userId - The ID of the user who is removing the recipe from favorites.
+ * @param {number} params.recipeId - The ID of the recipe to be removed from favorites.
+ * @param {ThunkAPI} { rejectWithValue } - The thunk API to handle errors.
+ * @returns {Promise<any>} - The response from the server.
+ */
 export const removeFavoriteRecipe = createAsyncThunk(
   "recipes/removeFavoriteRecipe",
   async ({ userId, recipeId }: { userId: string; recipeId: number }, { rejectWithValue }) => {
@@ -78,7 +104,13 @@ export const removeFavoriteRecipe = createAsyncThunk(
   }
 );
 
-// Modify the fetchRecipes thunk to use favorite recipe IDs if favUserId is provided
+/**
+ * Async thunk to fetch recipes based on various parameters.
+ * Includes an option to fetch recipes based on favorite recipe IDs if favUserId is provided.
+ * @param {RecipeFetchParams} params - The parameters for fetching recipes.
+ * @param {ThunkAPI} { rejectWithValue, dispatch } - The thunk API to handle errors and dispatch other thunks.
+ * @returns {Promise<any>} - The list of recipes.
+ */
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
   async (params: RecipeFetchParams, { rejectWithValue, dispatch }) => {
@@ -111,6 +143,12 @@ export const fetchRecipes = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch a single recipe by its ID.
+ * @param {number} recipeId - The ID of the recipe to be fetched.
+ * @param {ThunkAPI} { rejectWithValue } - The thunk API to handle errors.
+ * @returns {Promise<any>} - The recipe data.
+ */
 export const getRecipeById = createAsyncThunk(
   "recipes/getRecipeById",
   async (recipeId: number, { rejectWithValue }) => {
@@ -131,6 +169,7 @@ export const getRecipeById = createAsyncThunk(
     }
   }
 );
+
 interface RecipesState {
   recipes: any[]; // Adjust `any` to a more specific type if possible
   total: number;
@@ -140,6 +179,7 @@ interface RecipesState {
   error: string | null;
   favoriteRecipeIds: number[];
 }
+
 const initialState: RecipesState = {
   recipes: [],
   total: 0,
@@ -149,6 +189,7 @@ const initialState: RecipesState = {
   error: null,
   favoriteRecipeIds: [],
 };
+
 const recipesSlice = createSlice({
   name: "recipes",
   initialState,

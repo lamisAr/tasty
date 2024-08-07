@@ -1,7 +1,6 @@
 import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo } from "sequelize-typescript";
-import ShoppingList from "./ShoppingList"; // Assuming ShoppingList model is defined in the same directory
-import Ingredient from "./Ingredient"; // Assuming Ingredient model is defined in the same directory
-
+import ShoppingList from "./ShoppingList";
+import Ingredient from "./Ingredient";
 @Table
 export default class ShoppingListItem extends SequelizeModel<ShoppingListItem> {
   @Column({

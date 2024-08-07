@@ -18,8 +18,8 @@ import ImagePlaceholder from "../media/img/foodIcon.jpg";
 import { RootState } from "../store.ts";
 
 type RecipeIngredient = {
-  quantity?: number; // Add quantity to the Ingredient type
-  unit?: string; // Add unit to the Ingredient type
+  quantity?: number;
+  unit?: string;
 };
 
 type Ingredient = {
@@ -28,7 +28,7 @@ type Ingredient = {
   ingredientType?: string;
   ingredientType2?: string;
   caloriesPer100g: number;
-  note?: string; // Add note to the Ingredient type
+  note?: string;
   RecipeIngredient?: RecipeIngredient;
 };
 

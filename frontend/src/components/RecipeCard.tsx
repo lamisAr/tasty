@@ -16,7 +16,6 @@ type Props = {
   recipeId: string;
   favoriteRecipeIds?: number[];
   userId?: string;
-  // Add other fields as necessary
 };
 
 function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, userId }: Props) {

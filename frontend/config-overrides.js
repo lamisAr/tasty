@@ -11,7 +11,6 @@ module.exports = function override(config) {
     asset: require.resolve("assert"),
   };
 
-  // https://stackoverflow.com/questions/69135310/workaround-for-cache-size-limit-in-create-react-app-pwa-service-worker
   config.plugins.forEach((plugin) => {
     if (plugin instanceof WorkBoxPlugin.InjectManifest) {
       plugin.config.maximumFileSizeToCacheInBytes = 50 * 1024 * 1024;
@@ -28,7 +27,7 @@ module.exports = function override(config) {
 
   config.devServer = {
     ...config.devServer,
-    allowedHosts: ["localhost", "yourdomain.com"], // Add valid hostnames here
+    allowedHosts: ["localhost"],
   };
 
   return config;

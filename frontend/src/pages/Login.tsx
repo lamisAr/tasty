@@ -15,7 +15,6 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    // This is only a basic validation of inputs. Improve this as needed.
     if (email && password) {
       try {
         const encodedPassword = encode(process.env.secretKey || "defaultSalt", password);
@@ -29,8 +28,6 @@ function Login() {
       } catch (e) {
         navigate("/login");
       }
-    } else {
-      // Show an error message.
     }
   };
 

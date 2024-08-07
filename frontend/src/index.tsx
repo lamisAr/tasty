@@ -7,7 +7,7 @@ import store from "./store.ts";
 
 const container = document.getElementById("root");
 // eslint-disable-next-line
-const root = createRoot(container!); // Use the createRoot method for React 18
+const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
