@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import ImagePlaceholder from "../media/img/foodIcon.jpg";
 import { useAppDispatch } from "../hooks/redux-hooks.ts";
 import { addFavoriteRecipe, removeFavoriteRecipe } from "../slices/recipesSlice.ts";
@@ -46,6 +47,11 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
       dispatch(removeFavoriteRecipe({ userId, recipeId: Number(recipeId) }));
     }
   };
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate(`/recipes/${recipeId}`);
+  };
 
   return (
     <Card className="recipe-card" id={recipeId}>
@@ -68,7 +74,9 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
             + Add to Favorites
           </Button>
         )}
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={handleNavigation}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

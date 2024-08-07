@@ -32,7 +32,7 @@ export const fetchFavoriteRecipeIds = createAsyncThunk(
         return cachedRecipeIds;
       }
 
-      const response = await axiosInstance.get(`/api/recipes/favorites/${userId}`);
+      const response = await axiosInstance.get(`/recipes/favorites/${userId}`);
       return response.data.recipeIds;
     } catch (error) {
       let errorMsg = "Something went wrong!";
@@ -48,7 +48,7 @@ export const addFavoriteRecipe = createAsyncThunk(
   "recipes/addFavoriteRecipe",
   async ({ userId, recipeId }: { userId: string; recipeId: number }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/api/recipes/favorites/add", { userId, recipeId });
+      const response = await axiosInstance.post("/recipes/favorites/add", { userId, recipeId });
       return response.data;
     } catch (error) {
       let errorMsg = "Something went wrong!";
@@ -64,7 +64,7 @@ export const removeFavoriteRecipe = createAsyncThunk(
   "recipes/removeFavoriteRecipe",
   async ({ userId, recipeId }: { userId: string; recipeId: number }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.delete("/api/recipes/favorites/remove", {
+      const response = await axiosInstance.delete("/recipes/favorites/remove", {
         data: { userId, recipeId },
       });
       return response.data;
@@ -89,7 +89,7 @@ export const fetchRecipes = createAsyncThunk(
         recipeIds = favoriteRecipeIds;
       }
 
-      const response = await axiosInstance.get("/api/recipes", {
+      const response = await axiosInstance.get("/recipes", {
         params: {
           page: params.page || 1,
           limit: params.limit || 10,
@@ -110,6 +110,27 @@ export const fetchRecipes = createAsyncThunk(
     }
   }
 );
+
+export const getRecipeById = createAsyncThunk(
+  "recipes/getRecipeById",
+  async (recipeId: number, { rejectWithValue }) => {
+    try {
+      const recipeIds = [recipeId];
+      const response = await axiosInstance.get("/recipes", {
+        params: {
+          recipeIds: recipeIds.length > 0 ? recipeIds : undefined,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      let errorMsg = "Something went wrong!";
+      if (error instanceof AxiosError && error.response) {
+        errorMsg = error.response.data.message || errorMsg;
+      }
+      return rejectWithValue({ message: errorMsg });
+    }
+  }
+);
 interface RecipesState {
   recipes: any[]; // Adjust `any` to a more specific type if possible
   total: number;
@@ -117,7 +138,7 @@ interface RecipesState {
   limit: number;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  favoriteRecipeIds: number[]; // Define this as an array of numbers
+  favoriteRecipeIds: number[];
 }
 const initialState: RecipesState = {
   recipes: [],
@@ -134,9 +155,9 @@ const recipesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // .addCase(fetchRecipes.pending, (state) => {
-      //   state.status = "loading";
-      // })
+      .addCase(fetchRecipes.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.recipes = action.payload.data;
@@ -145,6 +166,20 @@ const recipesSlice = createSlice({
         state.limit = action.payload.limit;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as any;
+      })
+      .addCase(getRecipeById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getRecipeById.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.recipes = action.payload.data;
+        state.total = action.payload.total;
+        state.page = action.payload.page;
+        state.limit = action.payload.limit;
+      })
+      .addCase(getRecipeById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as any;
       })

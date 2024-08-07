@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import axiosInstance from "../api/axiosInstance.ts";
 
 /* eslint-disable no-param-reassign */
@@ -44,7 +45,7 @@ const initialState: AuthApiState = {
 };
 
 export const login = createAsyncThunk("login", async (data: User) => {
-  const response = await axiosInstance.post("/api/user/login", data);
+  const response = await axiosInstance.post("/user/login", data);
   const resData = response.data;
 
   localStorage.setItem("jwt", resData.token);
@@ -55,7 +56,7 @@ export const login = createAsyncThunk("login", async (data: User) => {
 });
 
 export const register = createAsyncThunk("register", async (data: NewUser) => {
-  const response = await axiosInstance.post("api/user/signup", data);
+  const response = await axiosInstance.post("/user/signup", data);
   const resData = response.data;
 
   localStorage.setItem("jwt", resData.token);
@@ -66,7 +67,7 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
 });
 
 export const logout = createAsyncThunk("logout", async () => {
-  const response = await axiosInstance.post("api/user/logout", {});
+  const response = await axiosInstance.post("/user/logout", {});
   const resData = response.data;
 
   localStorage.removeItem("userInfo");
@@ -76,9 +77,17 @@ export const logout = createAsyncThunk("logout", async () => {
   return resData;
 });
 
-export const getUser = createAsyncThunk("users/profile", async (userId: string) => {
-  const response = await axiosInstance.get(`/users/${userId}`);
-  return response.data;
+export const getUser = createAsyncThunk("users/profile", async (userId: string, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get(`/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    let errorMsg = "Something went wrong!";
+    if (error instanceof AxiosError && error.response) {
+      errorMsg = error.response.data.message || errorMsg;
+    }
+    return rejectWithValue({ message: errorMsg });
+  }
 });
 
 const authSlice = createSlice({
@@ -130,9 +139,8 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state) => {
         state.status = "idle";
-        state.userProfileData = action.payload;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.status = "failed";

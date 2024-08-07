@@ -49,7 +49,7 @@ const signup = async (req: Request, res: Response): Promise<Response | void> => 
       return res.status(400).send("UserName, Email and password are required");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -77,8 +77,6 @@ const login = async (req: Request, res: Response): Promise<Response | void> => {
 
         // If password matches with the one in the database, generate a cookie for the user
         res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-        console.log("user", JSON.stringify(user, null, 2));
-        console.log(token);
         // Send user data
         return res.status(201).send({
           id: user.id,
@@ -96,7 +94,7 @@ const login = async (req: Request, res: Response): Promise<Response | void> => {
       return res.status(401).send("Authentication failed");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -107,4 +105,23 @@ const logout = (req: Request, res: Response): void => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-export { signup, login, logout };
+const getUser = async (req: Request, res: Response): Promise<Response | void> => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findOne({
+      where: { id: userId },
+    });
+
+    if (user)
+      return res
+        .status(201)
+        .send({ id: user.id, username: user.userName, email: user.email, description: user.description });
+    return res.status(400).send("User Not Found!");
+  } catch (error) {
+    // console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export { signup, login, logout, getUser };
