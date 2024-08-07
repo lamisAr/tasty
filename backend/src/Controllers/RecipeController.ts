@@ -7,6 +7,33 @@ import { Cuisine, RecipeType } from "../db/Enums";
 import { Op } from "sequelize";
 
 // Add Recipe
+/**
+ *
+ *
+ * @param {Request} req - The request object containing the recipe details.
+ * @param {string} req.body.title - The title of the recipe.
+ * @param {string} req.body.description - The description of the recipe.
+ * @param {string} req.body.instructions - The instructions for the recipe.
+ * @param {string} req.body.country_of_origin - The country of origin for the recipe.
+ * @param {string} req.body.type - The type of the recipe.
+ * @param {number} req.body.user_id - The ID of the user creating the recipe.
+ * @param {Array} req.body.ingredients - The list of ingredients for the recipe, each containing:
+ *    @param {number} ingredient_id - The ID of the ingredient.
+ *    @param {number} quantity - The quantity of the ingredient.
+ *    @param {string} unit - The unit of measurement for the ingredient.
+ *    @param {string} note - Any additional notes for the ingredient.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ *
+ * Status Codes:
+ * - 201: Recipe created successfully.
+ * - 500: Internal server error.
+ *
+ */
 export const addRecipe = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { title, description, instructions, country_of_origin, type, user_id, ingredients } = req.body;
@@ -57,13 +84,35 @@ export const addRecipe = async (req: Request, res: Response): Promise<Response> 
 };
 
 //getRecipes
+/**
+ * Get a list of recipes from the database with optional filters and pagination.
+ *
+ * @param {Request} req - The request object containing query parameters.
+ * @param {number} [req.query.page=1] - The page number for pagination.
+ * @param {number} [req.query.limit=10] - The number of recipes to return per page.
+ * @param {string} [req.query.search] - The search term to filter recipes by title.
+ * @param {string} [req.query.cuisine] - The cuisine type to filter recipes.
+ * @param {string} [req.query.type] - The recipe type to filter recipes.
+ * @param {number} [req.query.userId] - The ID of the user to filter recipes created by them.
+ * @param {Array|string} [req.query.recipeIds] - The list of recipe IDs to filter specific recipes.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ *
+ * Status Codes:
+ * - 200: Recipes retrieved successfully.
+ * - 500: Internal server error.
+ */
 export const getRecipes = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { page = 1, limit = 10, search, cuisine, type, userId, recipeIds } = req.query;
 
     // Convert page and limit to numbers
     const offset = (Number(page) - 1) * Number(limit);
-    const whereClause: any = {};
+    const whereClause: any = { deleted: false }; // Exclude deleted recipes
 
     // Handle recipeIds parameter
     if (recipeIds) {
@@ -129,15 +178,33 @@ export const getRecipes = async (req: Request, res: Response): Promise<Response>
   }
 };
 
-// Delete Recipe
+//Delete Recipe
+/**
+ * Soft delete a recipe by setting the deleted flag to true.
+ *
+ * @param {Request} req - The request object containing the recipe ID.
+ * @param {string} req.params.id - The ID of the recipe to be deleted.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ *
+ * Status Codes:
+ * - 200: Recipe deleted successfully (soft delete).
+ * - 404: Recipe not found.
+ * - 500: Internal server error.
+ */
 export const deleteRecipe = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id } = req.params;
     const recipe = await Recipe.findByPk(id);
 
     if (recipe) {
-      await recipe.destroy();
-      return res.status(200).json({ message: "Recipe deleted successfully" });
+      recipe.deleted = true;
+      await recipe.save();
+      return res.status(200).json({ message: "Recipe deleted successfully (soft delete)" });
     } else {
       return res.status(404).json({ message: "Recipe not found" });
     }
@@ -168,7 +235,25 @@ export const getFavoriteRecipeIds = async (req: Request, res: Response): Promise
   }
 };
 
-// Add recipe to favorites
+//Add Fav
+/**
+ * Add a recipe to the user's favorites list.
+ *
+ * @param {Request} req - The request object containing userId and recipeId.
+ * @param {number} req.body.userId - The ID of the user adding the recipe to favorites.
+ * @param {number} req.body.recipeId - The ID of the recipe being added to favorites.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * Status Codes:
+ * - 201: Recipe added to favorites successfully.
+ * - 400: Bad request, user ID or recipe ID is missing or the recipe is already in favorites.
+ * - 500: Internal server error.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ */
 export const addFavoriteRecipe = async (req: Request, res: Response): Promise<Response> => {
   try {
     // Extract userId and recipeId from request body
@@ -204,7 +289,26 @@ export const addFavoriteRecipe = async (req: Request, res: Response): Promise<Re
   }
 };
 
-// Remove recipe from favorites
+//Remove Fav
+/**
+ * Remove a recipe from the user's favorites list.
+ *
+ * @param {Request} req - The request object containing userId and recipeId.
+ * @param {number} req.body.userId - The ID of the user removing the recipe from favorites.
+ * @param {number} req.body.recipeId - The ID of the recipe being removed from favorites.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * Status Codes:
+ * - 200: Recipe removed from favorites successfully.
+ * - 400: Bad request, user ID or recipe ID is missing.
+ * - 404: Favorite entry not found.
+ * - 500: Internal server error.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ */
 export const removeFavoriteRecipe = async (req: Request, res: Response): Promise<Response> => {
   try {
     // Extract userId and recipeId from request body

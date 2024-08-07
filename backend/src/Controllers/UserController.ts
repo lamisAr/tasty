@@ -1,12 +1,34 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../db/pgmodels/User"; // Adjust the import path to match your project structure
+import User from "../db/pgmodels/User";
 import { decode, encode } from "../common_lib/encodeDecode";
 import { describe } from "node:test";
 
 const bcrypt = require("bcryptjs");
-// Signing a user up
-// Hashing user's password before it's saved to the database with bcrypt
+
+/**
+ * Sign up a new user.
+ *
+ * @param {Request} req - The request object containing user details.
+ * @param {string} req.body.userName - The user's username.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's password.
+ * @param {string} [req.body.firstName] - The user's first name (optional).
+ * @param {string} [req.body.lastName] - The user's last name (optional).
+ * @param {string} [req.body.description] - A description for the user (optional).
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * Status Codes:
+ * - 201: User created successfully.
+ * - 400: Bad request, missing required fields.
+ * - 409: Conflict, user details are not correct.
+ * - 500: Internal server error.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation or token generation.
+ */
 const signup = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { userName, email, password, firstName, lastName, description } = req.body;
@@ -28,7 +50,7 @@ const signup = async (req: Request, res: Response): Promise<Response | void> => 
       // Set cookie with the token generated
       if (user) {
         const token = jwt.sign({ id: user.id }, process.env.secretKey as string, {
-          expiresIn: 1 * 24 * 60 * 60 * 1000,
+          expiresIn: 1 * 24 * 60 * 60,
         });
 
         res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
@@ -54,7 +76,24 @@ const signup = async (req: Request, res: Response): Promise<Response | void> => 
   }
 };
 
-// Login authentication
+/**
+ * Log in a user.
+ *
+ * @param {Request} req - The request object containing user login details.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's password.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * Status Codes:
+ * - 201: User logged in successfully.
+ * - 401: Authentication failed, user not found or credentials are incorrect.
+ * - 500: Internal server error.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation or token generation.
+ */
 const login = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { email, password } = req.body;
@@ -72,7 +111,7 @@ const login = async (req: Request, res: Response): Promise<Response | void> => {
       // If password is the same, generate token with the user's id and the secretKey in the env file
       if (isSame) {
         const token = jwt.sign({ id: user.id }, process.env.secretKey as string, {
-          expiresIn: 1 * 24 * 60 * 60 * 1000,
+          expiresIn: 1 * 24 * 60 * 60,
         });
 
         // If password matches with the one in the database, generate a cookie for the user
@@ -99,12 +138,37 @@ const login = async (req: Request, res: Response): Promise<Response | void> => {
   }
 };
 
+/**
+ * Log out a user by clearing the JWT token cookie.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {void} - Sends a JSON response indicating successful logout.
+ */
 const logout = (req: Request, res: Response): void => {
   // Clear the JWT token cookie
   res.cookie("jwt", "", { maxAge: 0 });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
+/**
+ * Retrieve a user's information by their ID.
+ *
+ * @param {Request} req - The request object containing the user ID.
+ * @param {string} req.params.userId - The ID of the user whose information is being retrieved.
+ *
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ *
+ * @returns {Promise<Response>} - A promise that resolves to an HTTP response.
+ *
+ * Status Codes:
+ * - 201: User information retrieved successfully.
+ * - 400: User not found.
+ * - 500: Internal server error.
+ *
+ * @throws {Error} - Throws an error if there is a problem with the database operation.
+ */
 const getUser = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { userId } = req.params;

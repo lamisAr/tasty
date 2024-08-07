@@ -8,9 +8,8 @@ import {
   UpdatedAt,
   DataType,
 } from "sequelize-typescript";
-import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
-import Ingredient from "./Ingredient"; // Assuming Ingredient model is defined in a separate file
-
+import Recipe from "./Recipe";
+import Ingredient from "./Ingredient";
 @Table
 export default class RecipeIngredient extends SequelizeModel<RecipeIngredient> {
   @Column({

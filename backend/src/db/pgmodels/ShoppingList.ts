@@ -11,8 +11,8 @@ import {
   NotEmpty,
   DataType,
 } from "sequelize-typescript";
-import User from "./User"; // Assuming User model is defined in the same directory
-import ShoppingListItem from "./ShoppingListItem"; // Assuming ShoppingListItem model is defined in the same directory
+import User from "./User";
+import ShoppingListItem from "./ShoppingListItem";
 
 @Table
 export default class ShoppingList extends SequelizeModel<ShoppingList> {

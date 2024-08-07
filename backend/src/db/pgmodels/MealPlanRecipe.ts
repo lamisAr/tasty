@@ -1,6 +1,6 @@
 import { Table, Column, Model as SequelizeModel, ForeignKey, BelongsTo } from "sequelize-typescript";
-import MealPlan from "./MealPlan"; // Assuming MealPlan model is defined in a separate file
-import Recipe from "./Recipe"; // Assuming Recipe model is defined in a separate file
+import MealPlan from "./MealPlan";
+import Recipe from "./Recipe";
 @Table
 export default class MealPlanRecipe extends SequelizeModel<MealPlanRecipe> {
   @Column({
