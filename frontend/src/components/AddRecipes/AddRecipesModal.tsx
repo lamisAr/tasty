@@ -52,10 +52,17 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [countryOfOrigin, setCountryOfOrigin] = useState("");
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [ingredientInput, setIngredientInput] = useState("");
+
+  const [countryOfOrigin, setCountryOfOrigin] = useState("");
+  const [allCuisines, setAllCuisines] = useState<string[]>([]);
+  const [cuisineInput, setCuisineInput] = useState<string>("");
+
+  const handleCuisineChange = (value: string) => {
+    setCountryOfOrigin(value);
+  };
 
   useEffect(() => {
     const storedIngredients = sessionStorage.getItem("ingredients");
@@ -65,6 +72,15 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
       axiosInstance.get(`/ingredients`).then((response) => {
         sessionStorage.setItem("ingredients", JSON.stringify(response.data.data));
         setAllIngredients(response.data.data);
+      });
+
+    const storedCuisines = sessionStorage.getItem("cuisines");
+    if (storedCuisines && JSON.parse(storedCuisines)?.length > 0) {
+      setAllCuisines(JSON.parse(storedCuisines));
+    } else
+      axiosInstance.get(`/recipes/cuisines`).then((response) => {
+        sessionStorage.setItem("cuisines", JSON.stringify(response.data.cuisines));
+        setAllCuisines(response.data.data);
       });
   }, []);
 
@@ -158,12 +174,14 @@ export default function RecipeCard({ open, handleClose, userId }: Props) {
             rows={6}
             margin="normal"
           />
-          <TextField
-            label="Country of Origin"
+          <Autocomplete
+            options={allCuisines}
+            getOptionLabel={(option) => option}
+            onChange={(event, value) => handleCuisineChange(value || "")}
+            renderInput={(params) => <TextField {...params} label="Country of Origin" fullWidth margin="normal" />}
+            inputValue={cuisineInput}
             value={countryOfOrigin}
-            onChange={(e) => setCountryOfOrigin(e.target.value)}
-            fullWidth
-            margin="normal"
+            onInputChange={(event, newInputValue) => setCuisineInput(newInputValue)}
           />
           <Typography id="modal-modal-title" variant="body1" pt={2}>
             Add Ingredients
