@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("jwt"); // or use localStorage
+  const token = localStorage.getItem("jwt");
   if (token) {
     // eslint-disable-next-line no-param-reassign
     config.headers.Authorization = `Bearer ${token}`;
@@ -18,7 +18,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401 && error.response.data?.message === "Invalid token.") {
-      // Handle unauthorized access, e.g., redirect to login
+      // Handle unauthorized access
       // eslint-disable-next-line
       alert("Session expired. Please log in again.");
       // Clear token from storage

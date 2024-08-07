@@ -44,6 +44,12 @@ const initialState: AuthApiState = {
   error: null,
 };
 
+/**
+ * Async thunk to handle user login.
+ * Sends a login request to the server, stores the JWT and user information in localStorage on success.
+ * @param {User} data - The user credentials for login.
+ * @returns {Promise<UserBasicInfo>} - The basic user information returned from the server.
+ */
 export const login = createAsyncThunk("login", async (data: User) => {
   const response = await axiosInstance.post("/user/login", data);
   const resData = response.data;
@@ -55,6 +61,12 @@ export const login = createAsyncThunk("login", async (data: User) => {
   return resData;
 });
 
+/**
+ * Async thunk to handle user registration.
+ * Sends a registration request to the server, stores the JWT and user information in localStorage on success.
+ * @param {NewUser} data - The new user information for registration.
+ * @returns {Promise<UserBasicInfo>} - The basic user information returned from the server.
+ */
 export const register = createAsyncThunk("register", async (data: NewUser) => {
   const response = await axiosInstance.post("/user/signup", data);
   const resData = response.data;
@@ -66,6 +78,11 @@ export const register = createAsyncThunk("register", async (data: NewUser) => {
   return resData;
 });
 
+/**
+ * Async thunk to handle user logout.
+ * Sends a logout request to the server, removes user information and JWT from localStorage on success.
+ * @returns {Promise<void>} - The response from the server.
+ */
 export const logout = createAsyncThunk("logout", async () => {
   const response = await axiosInstance.post("/user/logout", {});
   const resData = response.data;
@@ -77,6 +94,13 @@ export const logout = createAsyncThunk("logout", async () => {
   return resData;
 });
 
+/**
+ * Async thunk to fetch user profile data by user ID.
+ * Sends a request to fetch user data and returns the profile information.
+ * @param {string} userId - The ID of the user whose profile data is to be fetched.
+ * @param {ThunkAPI} { rejectWithValue } - The thunk API to handle errors.
+ * @returns {Promise<UserBasicInfo>} - The basic user information returned from the server.
+ */
 export const getUser = createAsyncThunk("users/profile", async (userId: string, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get(`/user/${userId}`);

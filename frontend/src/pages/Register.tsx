@@ -20,7 +20,6 @@ function Register() {
 
   const handleRegister = async () => {
     const encodedPassword = encode(process.env.secretKey || "defaultSalt", password);
-    // This is only a basic validation of inputs. Improve this as needed.
     if (userName && email && password) {
       try {
         await dispatch(

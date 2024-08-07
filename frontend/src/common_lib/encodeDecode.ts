@@ -19,7 +19,6 @@ export const decode = (salt: string, encoded: string): string => {
   const matches = encoded.match(/.{1,2}/g);
 
   if (!matches) {
-    // Handle the case where no matches were found, e.g., return an empty string or throw an error
     return "";
   }
 
