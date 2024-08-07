@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import ImagePlaceholder from "../media/img/foodIcon.jpg";
 import { useAppDispatch } from "../hooks/redux-hooks.ts";
-import { addFavoriteRecipe, removeFavoriteRecipe } from "../slices/recipesSlice.ts";
+import { addFavoriteRecipe, removeFavoriteRecipe, deleteRecipe } from "../slices/recipesSlice.ts";
 
 type Props = {
   recipeTitle: string;
@@ -16,9 +16,20 @@ type Props = {
   recipeId: string;
   favoriteRecipeIds?: number[];
   userId?: string;
+  recipeUser: string;
+  // eslint-disable-next-line
+  removeRecipeFromList: () => void;
 };
 
-function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, userId }: Props) {
+function RecipeCard({
+  recipeTitle,
+  description,
+  recipeId,
+  favoriteRecipeIds,
+  userId,
+  recipeUser,
+  removeRecipeFromList,
+}: Props) {
   const [isFavRecipe, setIsFavRecipe] = useState(false);
   useEffect(() => {
     if (
@@ -44,6 +55,14 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
     if (userId) {
       setIsFavRecipe(false);
       dispatch(removeFavoriteRecipe({ userId, recipeId: Number(recipeId) }));
+    }
+  };
+  const handleDeleteRecipe = () => {
+    if (recipeId) {
+      dispatch(deleteRecipe(recipeId)).then((res) => {
+        if (res.payload && res.payload.message && res.payload.message === "Recipe deleted successfully (soft delete)")
+          removeRecipeFromList();
+      });
     }
   };
   const navigate = useNavigate();
@@ -76,6 +95,11 @@ function RecipeCard({ recipeTitle, description, recipeId, favoriteRecipeIds, use
         <Button size="small" onClick={handleNavigation}>
           Learn More
         </Button>
+        {userId && userId === recipeUser && (
+          <Button sx={{ color: "red" }} size="small" onClick={handleDeleteRecipe}>
+            Delete Recipe
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

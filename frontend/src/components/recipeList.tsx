@@ -60,6 +60,10 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
     dispatch(fetchRecipes(params));
   };
 
+  const removeRecipeFromList = () => {
+    dispatch(fetchRecipes(params));
+  };
+
   // if (status === "loading") {
   //   return <div>Loading...</div>;
   // }
@@ -96,6 +100,8 @@ function RecipesList({ isUserRecipe = false, isFavRecipe = false, userId }: Prop
                   description={recipe.description}
                   favoriteRecipeIds={favoriteRecipeIds}
                   userId={basicUserInfo?.id}
+                  recipeUser={recipe.user_id}
+                  removeRecipeFromList={removeRecipeFromList}
                 />
               ))
             ) : (
