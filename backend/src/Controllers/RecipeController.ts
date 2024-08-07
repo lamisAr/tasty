@@ -340,3 +340,22 @@ export const removeFavoriteRecipe = async (req: Request, res: Response): Promise
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+/**
+ * @route   GET /api/recipes/cuisines
+ * @desc    Get all available cuisines
+ * @access  Public
+ */
+export const getCuisines = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const cuisines = Object.values(Cuisine);
+
+    return res.status(200).json({
+      success: true,
+      cuisines,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
