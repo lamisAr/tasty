@@ -105,6 +105,31 @@ export const removeFavoriteRecipe = createAsyncThunk(
 );
 
 /**
+ * Async thunk to remove a recipe from the user's favorites.
+ * Sends a request to the server to remove a recipe from the list of favorite recipes.
+ * @param {Object} params - The parameters for removing a recipe from favorites.
+ * @param {string} params.userId - The ID of the user who is removing the recipe from favorites.
+ * @param {number} params.recipeId - The ID of the recipe to be removed from favorites.
+ * @param {ThunkAPI} { rejectWithValue } - The thunk API to handle errors.
+ * @returns {Promise<any>} - The response from the server.
+ */
+export const deleteRecipe = createAsyncThunk(
+  "recipes/delete",
+  async (recipeId: string | number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`/recipes/${recipeId}`);
+      return response.data;
+    } catch (error) {
+      let errorMsg = "Something went wrong!";
+      if (error instanceof AxiosError && error.response) {
+        errorMsg = error.response.data.message || errorMsg;
+      }
+      return rejectWithValue({ message: errorMsg });
+    }
+  }
+);
+
+/**
  * Async thunk to fetch recipes based on various parameters.
  * Includes an option to fetch recipes based on favorite recipe IDs if favUserId is provided.
  * @param {RecipeFetchParams} params - The parameters for fetching recipes.
