@@ -140,7 +140,7 @@ export const getRecipes = async (req: Request, res: Response): Promise<Response>
       }
     } else {
       if (search) {
-        whereClause.title = { [Op.like]: `%${search}%` };
+        whereClause.title = { [Op.iLike]: `%${search}%` };
       }
 
       if (cuisine) {
